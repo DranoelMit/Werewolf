@@ -25,6 +25,7 @@ app.get("/", function(req, res)
 
      res.render("index",
      {
+          //json of what you want to send to be rendered
           title: "Werewolf Express app"
      }
      );
