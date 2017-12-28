@@ -1,0 +1,23 @@
+{
+  "name": "werewolf",
+  "version": "1.0.0",
+  "description": "web application of the game Werewolf (or mafia)",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DranoelMit/Werewolf.git"
+  },
+  "dependencies":{
+     "express":"*",
+     "body-parser":"*"
+ },
+  "author": "Tim Leonard, Joshua Sen, Marcus Panozzo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DranoelMit/Werewolf/issues"
+  },
+  "homepage": "https://github.com/DranoelMit/Werewolf#readme"
+}
