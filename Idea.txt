@@ -1,0 +1,50 @@
+NOTE: obviously this is a lot, and the game would not look like this for a long time, if ever.
+ But I figured I should write down my ideas while they're in my head and I have time
+
+imo the storyteller is so perfect for being turned into server tasks because it then takes care of all the rules and tedious steps itself
+
+this also allows us to host the server on a cloud service and make the game accesible anywhere and not have to worry about
+ static IP's and all the typical internet issues that could arise
+
+Without further ado, enjoy my brain dump
+	-Tim
+
+---------------------------------------------------------------------------------------------------------------
+
+Werewolf-style game (mafia, etc, whatever you want to call it)
+
+-Desktop application(Language -> Java? or something else, TBD)
+
+-Use a GUI builder? lots of industry-standard ones these days
+
+-Server should be autonomous, completely separate from any users, pretty sure we can host this with AWS or
+ Google Cloud Services(which I can get free credit hours for via CS club)
+
+-Storyteller IS the server, it is NOT a player
+	- This opens up a HUGE possibility for customization/randomization/AI
+		-Machine Learning Storyteller AI?
+			-Makes Scenarios and a plot on its own based on examples we feed it
+
+-Players log on, when at least X(the minimum) amount of players are in the lobby,
+ users can ready up or wait for Y(the maximum) amount of players before starting
+
+-Server assigns roles to each player, creates an introduction story 
+	-Can have themes for each game(i.e. werewolfs are animorphs, vampires, etc.)
+		-Icons and pictures for all themes (sounds like a Josh problem)
+	-Setting for each game(can be random or fit to theme (transylvania, the future, narnia)
+-The main gameplay takes place in a turn-based system mainly using a chat between all the players
+
+
+Basic Turn ideology:
+
+	1- Night time 
+		1a)Special individual abilities are prompted to respectful role (prompts seer to pick another player)
+		1b)The "werewolf"'s are given a separate chat in between turns to vote on who to kill
+		1c) if you already used your ability/are a villager, user will see a waiting screen during this time
+	2- Day time
+		2a) server/storyteller gives the results of the night actions
+		2b) chat between all players opens up
+		2c) users are prompted to vote on who to kill
+		2d) results are tallied and player with most votes dies
+		2e) check for post-mortem abilities
+	-----Return to Night time unless game is over-------
