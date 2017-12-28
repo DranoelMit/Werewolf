@@ -10,10 +10,11 @@
     "type": "git",
     "url": "git+https://github.com/DranoelMit/Werewolf.git"
   },
-  "dependencies":{
-     "express":"*",
-     "body-parser":"*"
- },
+  "dependencies": {
+    "body-parser": "*",
+    "ejs": "^2.5.7",
+    "express": "*"
+  },
   "author": "Tim Leonard, Joshua Sen, Marcus Panozzo",
   "license": "MIT",
   "bugs": {
