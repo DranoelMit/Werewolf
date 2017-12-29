@@ -1,0 +1,24 @@
+{
+  "name": "werewolf",
+  "version": "1.0.0",
+  "description": "Werewolf web app \u001b[D\u001b[D\u001b[D\u001b[D\u001b[C\u001b[C\u001b[C\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[Dgame \u001b[C\u001bweb application (or Mafia, or whatever you want to call it)",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DranoelMit/Werewolf.git"
+  },
+  "author": "Tim Leonard, Marcus Panozzo, Joshua Sen",
+  "license": "MIT",
+  "dependencies": {
+    "express": "*",
+    "socket.io": "^2.0.4"
+  },
+  "bugs": {
+    "url": "https://github.com/DranoelMit/Werewolf/issues"
+  },
+  "homepage": "https://github.com/DranoelMit/Werewolf#readme"
+}
