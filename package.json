@@ -13,7 +13,8 @@
   "dependencies": {
     "body-parser": "*",
     "ejs": "^2.5.7",
-    "express": "*"
+    "express": "*",
+    "socket.io": "^2.0.4"
   },
   "author": "Tim Leonard, Joshua Sen, Marcus Panozzo",
   "license": "MIT",

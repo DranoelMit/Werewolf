@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 //set static path(website), this is where you would put any html/css
 //this will override any other response
- app.use(express.static(path.join(__dirname, "client")));
+ app.use(express.static(path.join(__dirname, "public")));
 
 
 //express middleware
