@@ -1,29 +1,28 @@
 <!DOCTYPE html>
 <html>
      <head>
-          <meta charset="utf-8">
+          <meta charset="utf-8"/>
           <title>Werewolf</title>
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+          <link rel="stylesheet" href="style.css"/>
           <script src="http://code.jquery.com/jquery-latest.min.js"></script>
           <script src="/socket.io/socket.io.js"></script>
      </head>
      <body>
           <div class="container">
+     <!--
                <div class="row">
                     <div class="col-md-4">
                          <div class="well">
                               <h3>Online Users</h3>
                               <ul class="list-group" id="users"></ul>
                          </div>
-                    </div>
+                    </div> -->
                     <div class="col-md-8">
                          <div class="chat" id="chat"></div>
                          <form id="messageForm" >
                               <div class="form-group">
-                                   <label>Enter Message</label>
-                                   <textarea class="form-control" id="message"></textarea>
-                                   <br/>
-                                   <input type="submit" class="btn btn-primary" value="Send Message" />
+                                   <input class="form-control" id="message" type="text" placeholder="Enter a message"/>
                               </div>
                          </form>
                     </div>

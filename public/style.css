@@ -1,0 +1,14 @@
+#chat
+{
+     margin-top: 25px;
+     height: 300px;
+     overflow: hidden;
+     overflow-y: scroll;
+     border: 3px solid;
+     border-color: #aaaaaa;
+     border-radius: 1px;
+}
+.newMessage
+{
+padding-top, padding-bottom: 3px;
+}
