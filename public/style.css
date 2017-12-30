@@ -10,5 +10,19 @@
 }
 .newMessage
 {
-padding-top, padding-bottom: 3px;
+     padding-top, padding-bottom: 3px;
+}
+#chatArea
+{
+      display: none;
+
+}
+#online
+{
+     width: 200px;
+
+}
+.username-list-item
+{
+     list-style-type: none;
 }

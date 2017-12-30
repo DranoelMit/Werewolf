@@ -5,19 +5,22 @@
           <title>Werewolf</title>
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
           <link rel="stylesheet" href="style.css"/>
+          <link rel="icon" href="favicon.png"/>
           <script src="http://code.jquery.com/jquery-latest.min.js"></script>
           <script src="/socket.io/socket.io.js"></script>
      </head>
      <body>
           <div class="container">
-     <!--
-               <div class="row">
-                    <div class="col-md-4">
-                         <div class="well">
-                              <h3>Online Users</h3>
+               <form id="usernameForm">
+                    <input id="userInput" class="form-group" type="text" placeholder="Enter a username"/>
+               </form>
+               <div id="chatArea"  class="row">
+                    <div class="col-md-2">
+                         <div id="online">
+                              <h3>Users</h3>
                               <ul class="list-group" id="users"></ul>
                          </div>
-                    </div> -->
+                    </div>
                     <div class="col-md-8">
                          <div class="chat" id="chat"></div>
                          <form id="messageForm" >
