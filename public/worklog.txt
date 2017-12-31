@@ -1,0 +1,43 @@
+Things to do:
+
+Username Prompt---------------------------------------
+
+**make username submissions alpha numeric
+large & centered on screen
+Some sort of logo and Github link
+
+
+LOBBY-------------------------------------------------
+min 3
+max 12
+List off all joined players
+"Ready up" button?
+Assign each player a role
+     -Append to name with special character
+     Tim#werewolf
+     -parse on server to send username for new messages in chat
+
+     Phase 1:
+          -Werewolf (x2?)
+          -Seer
+          -Villager
+          -Hunter
+     Phase 2:
+          -Priest (protect)
+          -Tanner
+          -minion
+Display each player's role
+Render game
+
+
+
+
+
+IT'S ALL ABOUT THE GAME ... (from here on out)------------------------------------------------------
+
+Things to track:
+     -role (can hide inside list of names on server)
+     -Dead er' alive
+     -Night and Day Cycle (# of alive, to check if game is over)
+          numWerewolves && one or more werewolves are alive, werewolves win
+          all werewolfs are dead, villagers win

@@ -1,5 +1,6 @@
-$(function(){
+
      var socket = io.connect();
+     var $body = $("body");
      var $chatArea = $("#chatArea");
      var $messageForm = $("#messageForm");
      var $message = $("#message");
@@ -7,6 +8,12 @@ $(function(){
      var $usernameForm = $("#usernameForm");
      var $users = $("#users");
      var $userInput = $("#userInput");
+     var $nightButton = $("#nightButton");
+
+     $messageForm.on("click", "#nightButton", function(){
+          $body.css("transition", "2s");
+          $body.css("background-color", "#000000");
+     });
 
      $usernameForm.submit(function(e){
           e.preventDefault();
@@ -35,4 +42,3 @@ $(function(){
      socket.on("new message", function(data){
           $chat.append('<div class="newMessage"><span class="username">'+data.user+': </span>'+data.msg+'</div>');
      });
-});
