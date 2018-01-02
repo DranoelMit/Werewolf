@@ -4,6 +4,7 @@ var server = require("http").createServer(app);
 var io = require("socket.io").listen(server);
 
 var users = [];
+var isUserReady = [];
 var connections =[];
 
 server.listen(process.env.PORT || 8080);
@@ -22,7 +23,9 @@ io.sockets.on("connection", function(socket){
           //disconnect
      socket.on("disconnect", function(data)
      {
-          users.splice(users.indexOf(socket.username), 1);
+          let nameIndex = users.indexOf(socket.username);
+          users.splice(nameIndex, 1);
+          isUserReady.splice(nameIndex, 1);
           updateUsernames();
           connections.splice(connections.indexOf(socket), 1);
           console.log("Discconected: " +connections.length + " sockets connected");
@@ -36,11 +39,28 @@ io.sockets.on("connection", function(socket){
           callback(true);
           socket.username = data;
           users.push(socket.username);
+          isUserReady.push(false);
           updateUsernames();
      });
+//Change user ready status
+socket.on("ready user", function(ready)
+{
 
+     isUserReady[users.indexOf(socket.username)] = ready;
+     updateUsernames();
+     //GAME SHOULD START HERE
+     // if(allUsersReady)
+     // {
+     //      startGame();
+     // }
+});
+//Update user list
      function updateUsernames(){
-          io.sockets.emit("get users", users);
+          let nameReadyList = [];
+          for(let i=0; i<users.length; i++){
+               nameReadyList.push({name: users[i], ready:isUserReady[i]});
+          }
+          io.sockets.emit("get users", nameReadyList);
      }
 
 });

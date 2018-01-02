@@ -4,7 +4,7 @@
           <meta charset="utf-8"/>
           <title>Werewolf</title>
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
-          <link rel="stylesheet" href="style.css"/>
+          <link rel="stylesheet" href="css/style.css"/>
           <link rel="icon" href="favicon.png"/>
           <script src="http://code.jquery.com/jquery-latest.min.js"></script>
           <script src="/socket.io/socket.io.js"></script>
@@ -13,10 +13,14 @@
      <body>
           <div class="container">
                <!-- This is the first "page"  -->
-               <form id="usernameForm">
-                    <input id="userInput" class="form-group" type="text" placeholder="Enter a username" autocomplete="off"/>
-               </form>
+               <div id="introView">
+                    <h2 id="mainTitle"> Werewolf </h2>
 
+                    <form id="usernameForm">
+                         <input id="userInput" class="form-group" type="text" placeholder="Enter a username to join the lobby" autocomplete="off"/>
+                    </form>
+                    <p id="whatIs">Werewolf is a multiplayer game where each player is assigned a role, and the village folk must identify the murderous werewolfs before it is too late! Read the full rules <a href="https://google.com">here</a>.</p>
+               </div>
                <!-- This is the second "page"  -->
                <div id="lobby">
                     <div id="lobbyUserList" class="col-md-2">
@@ -45,6 +49,6 @@
                <!-- This is the third "page"  -->
                     <!-- THE GAME STARTS HERE-->
           </div>
-          <script src="chatManager.js"></script>
+          <script src="js/chatManager.js"></script>
      </body>
 </html>

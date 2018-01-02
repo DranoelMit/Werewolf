@@ -1,0 +1,60 @@
+body
+{
+
+}
+@font-face {
+     font-family: rothenbg;
+     src: url(fonts/rothenbg.ttf);
+
+     font-family: FBI;
+     src: url(fonts/FBIOldReport-Regular.ttf);
+}
+#introView
+{
+     text-align: center;
+}
+#mainTitle
+{
+     color: #685338;
+     font-family: FBI;
+     font-size: 80pt;
+     font-weight: 500;
+}
+#userInput
+{
+width: 60%;
+}
+#chat
+{
+
+     height: 300px;
+     overflow: auto;
+     display: flex;
+     flex-direction: column-reverse;
+     border: 3px solid;
+     border-color: #aaaaaa;
+     border-radius: 1px;
+     background-color: #ffffff;
+}
+.newMessage
+{
+     padding-top, padding-bottom: 3px;
+     flex-flow: column-reverse;
+}
+#lobby
+{
+      display: none;
+}
+#online
+{
+     width: 200px;
+
+}
+.username-list-item
+{
+     list-style-type: none;
+}
+.ready
+{
+     color: #00aa00;
+}

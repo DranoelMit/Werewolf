@@ -1,6 +1,7 @@
 
      var socket = io.connect();
      var $body = $("body");
+     var $introView = $("#introView");
      var $chatArea = $("#chatArea");
      var $messageForm = $("#messageForm");
      var $message = $("#message");
@@ -15,10 +16,28 @@
      var $ReadyButtonForm = $("#ReadyButtonForm");
      var $ReadyButton = $("#ReadyButton");
 
+var isNight = false;
+
 //Makes background dark (should toggle?)
      $messageForm.on("click", "#nightButton", function(){
+          $nightButton.css("color", "#000000");
+          $ReadyButton.css("color", "#000000");
+          if(!isNight){
           $body.css("transition", "2s");
           $body.css("background-color", "#000000");
+          $body.css("color", "#ffffff");
+          $nightButton.val("Day Time");
+
+          isNight=true;
+          }
+          else{
+               $body.css("transition", "2s");
+               $body.css("background-color", "#ffffff");
+               $body.css("color", "#000000");
+               $nightButton.val("Night Time");
+
+               isNight=false;
+          }
      });
 
 //Client submits username to server
@@ -41,7 +60,8 @@ function isAlphaNumeric(str) {
       if(isAlphaNumeric($userInput.val().toString())){
         socket.emit("new user", $userInput.val(), function(data){
              if(data){
-                  $usernameForm.hide();
+
+                  $introView.hide();
                   $lobby.show();
              }
         });
@@ -57,7 +77,13 @@ function isAlphaNumeric(str) {
           let html ="";
           $lobbyUserListHeader.html("Lobby (" + data.length + "/36) online");
           for(let i=0; i<data.length; i++){
-               html += '<li class="username-list-item">' +data[i]+'</li>';
+               console.log(data[i].ready);
+               if(data[i].ready){
+                    html += '<li class="username-list-item   ready">' +data[i].name+'</li>';
+               }
+               else{
+                    html += '<li class="username-list-item">' +data[i].name +'</li>';
+               }
           }
           $users.html(html);
      });
@@ -72,5 +98,10 @@ function isAlphaNumeric(str) {
 
 //Client recieves message from server
      socket.on("new message", function(data){
-          $chat.append('<div class="newMessage"><span class="username">'+data.user+': </span>'+data.msg+'</div>');
+          //prepend --> opposite order of append (so messages are at bottom)
+          $chat.prepend('<div class="newMessage"><span class="username">'+data.user+': </span>'+data.msg+'</div>');
+     });
+
+     $ReadyButtonForm.on("click", "#ReadyButton", function(){
+          socket.emit("ready user",  true);
      });
