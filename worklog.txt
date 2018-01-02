@@ -1,13 +1,28 @@
 Things to do:
 
-Username Prompt---------------------------------------
+
+Day 1:
+
+-Finish and organize HTML structure
+     -Add a lobby
+     -Ready button
+
+
+
+
+
+
+
+
+
+-----------------Username Prompt---------------------------------------
 
 **make username submissions alpha numeric
 large & centered on screen
 Some sort of logo and Github link
 
 
-LOBBY-------------------------------------------------
+--------------------LOBBY-------------------------------------------------
 min 3
 max 12
 List off all joined players
@@ -29,11 +44,7 @@ Assign each player a role
 Display each player's role
 Render game
 
-
-
-
-
-IT'S ALL ABOUT THE GAME ... (from here on out)------------------------------------------------------
+-------------IT'S ALL ABOUT THE GAME ... (from here on out)------------------------------------------------------
 
 Things to track:
      -role (can hide inside list of names on server)
@@ -41,3 +52,18 @@ Things to track:
      -Night and Day Cycle (# of alive, to check if game is over)
           numWerewolves && one or more werewolves are alive, werewolves win
           all werewolfs are dead, villagers win
+     Day time //////////////////////////////////////////////
+     Clear the chat before the start of each day(so people dont see werewolf chats)
+          End of day -> vote on who to kill
+               -Radio button form
+               -majority rules
+               -IF Tie --->List voting results,  reset vote
+               -ELSE show who won majority, and kill said player
+
+     Night time ////////////////////////////////////////////
+
+     -Present Non werewolf skills with prompts
+          -ask the seer who they want to invesitgate
+     -werewolfs
+          -Repurpose the chat at night for only the werewolfs
+          -Same vote for who to kill but only between werewolfs And MUST be unanimous
