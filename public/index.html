@@ -20,28 +20,30 @@
                <!-- This is the second "page"  -->
                <div id="lobby">
                     <div id="lobbyUserList" class="col-md-2">
+                         <p id="lobbyUserListHeader"></p>
+                         <!-- Make Users appear here  -->
+                         <ul id="users">
+                         </ul>
+                         <form id="ReadyButtonForm">
+                              <input id="ReadyButton" type="button" value="Ready"/>
+                         </form>
+                    </div>
+                    <div id="chatArea"  class="col-md-8">
 
+                         <div class="col-md-8">
+                              <div class="chat" id="chat"></div>
+                              <form id="messageForm" >
+                                   <div class="form-group">
+                                        <input class="form-control" id="message" type="text" placeholder="Enter a message" autocomplete="off"/>
+                                        <input id="nightButton" type="button" value="Night Time"/>
+                                   </div>
+                              </form>
+                         </div>
                     </div>
                </div>
 
                <!-- This is the third "page"  -->
-               <div id="chatArea"  class="row">
-                    <div class="col-md-2">
-                         <div id="online">
-                              <h3>Users</h3>
-                              <ul class="list-group" id="users"></ul>
-                         </div>
-                    </div>
-                    <div class="col-md-8">
-                         <div class="chat" id="chat"></div>
-                         <form id="messageForm" >
-                              <div class="form-group">
-                                   <input class="form-control" id="message" type="text" placeholder="Enter a message" autocomplete="off"/>
-                                   <input id="nightButton" type="button" value="Night Time"/>
-                              </div>
-                         </form>
-                    </div>
-               </div>
+                    <!-- THE GAME STARTS HERE-->
           </div>
           <script src="chatManager.js"></script>
      </body>

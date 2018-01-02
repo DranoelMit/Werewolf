@@ -1,6 +1,10 @@
-#chat
+body
 {
      margin-top: 25px;
+}
+#chat
+{
+
      height: 300px;
      overflow: hidden;
      overflow-y: scroll;
@@ -13,11 +17,9 @@
 {
      padding-top, padding-bottom: 3px;
 }
-#chatArea
+#lobby
 {
       display: none;
-
-
 }
 #online
 {
