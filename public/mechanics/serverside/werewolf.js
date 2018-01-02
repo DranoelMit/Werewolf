@@ -40,7 +40,7 @@ function WerewolfGame(serverObj,ioObj,users,connectedSockets)
     this.players = new Array()
     for (i = 0; i < users.length;i++)
     {
-
+        
     }
     this.Start = function(){
 
