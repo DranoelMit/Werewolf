@@ -32,8 +32,8 @@
           $message.val("");
      });
      socket.on("get users", function(data){
-          let html ="";
-          for(let i=0; i<data.length; i++){
+           html ="";
+          for( i=0; i<data.length; i++){
                html += '<li class="username-list-item">' +data[i]+'</li>';
           }
           $users.html(html);
