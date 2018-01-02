@@ -1,6 +1,6 @@
 body
 {
-
+background-image: url("backgroundImg.png");
 }
 @font-face {
      font-family: rothenbg;
@@ -15,7 +15,7 @@ body
 }
 #mainTitle
 {
-     color: #685338;
+     color: #dddddd;
      font-family: FBI;
      font-size: 80pt;
      font-weight: 500;
