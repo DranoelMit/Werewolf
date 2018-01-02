@@ -20,20 +20,18 @@ var isNight = false;
 
 //Makes background dark (should toggle?)
      $messageForm.on("click", "#nightButton", function(){
-          $nightButton.css("color", "#000000");
-          $ReadyButton.css("color", "#000000");
           if(!isNight){
           $body.css("transition", "2s");
-          $body.css("background-color", "#000000");
-          $body.css("color", "#ffffff");
+          $body.css("background-image", 'url(../css/daybg.png)');
+
           $nightButton.val("Day Time");
 
           isNight=true;
           }
           else{
                $body.css("transition", "2s");
-               $body.css("background-color", "#ffffff");
-               $body.css("color", "#000000");
+               $body.css("background-image", 'url(../css/nightbg.png)');
+
                $nightButton.val("Night Time");
 
                isNight=false;
