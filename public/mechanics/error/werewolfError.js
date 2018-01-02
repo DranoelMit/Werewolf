@@ -14,5 +14,17 @@ function WereError(errorCode,description)
 
 function UsernameMismatch()
 {
-    WereError.call(101,"Username mismatch")
+    WereError.call(101,"Username mismatch");
+}
+function InvalidPair()
+{
+    WereError.call(1,"Key/Value pair was invalid");
+}
+function ItemAlreadyExists()
+{
+    WereError.call(2,"Item already exists in array");
+}
+function InvalidType()
+{
+    WereError.call(3,"Invalid type given");
 }
