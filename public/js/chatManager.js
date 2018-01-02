@@ -74,9 +74,9 @@ function isAlphaNumeric(str) {
 
 //Client receives user list from server
      socket.on("get users", function(data){
-          let html ="";
+          html ="";
           $lobbyUserListHeader.html("Lobby (" + data.length + "/36) online");
-          for(let i=0; i<data.length; i++){
+          for(i=0; i<data.length; i++){
                console.log(data[i].ready);
                if(data[i].ready){
                     html += '<li class="username-list-item   ready">' +data[i].name+'</li>';
