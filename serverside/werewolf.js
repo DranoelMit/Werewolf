@@ -29,7 +29,7 @@ function Player(gc,role)
 */
 const NUM_WEREWOLVES = 2;
 const NUM_SEER = 1;
-const NUM_VILLAGER = 1;
+const NUM_VILLAGER = 1; //shouldnt be a set number? number of players is unknown
 const NUM_HUNTER = 1;
 function WerewolfGame(serverObj,ioObj,users,connectedSockets)
 {

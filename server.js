@@ -2,11 +2,13 @@ var express = require("express");
 var app = express();
 var server = require("http").createServer(app);
 var io = require("socket.io").listen(server);
+var werewolf = require("./serverside/werewolf.js");
 
 var users = [];
 var isUserReady = [];
 var connections =[];
-const MAXPLAYERS = 3; //CHANGE BACK TO 12
+const MAXPLAYERS = 12;
+const MINPLAYERS = 4;
 const callbackStatus = {
                               good: 0,
                               nameTaken: 1,
@@ -30,7 +32,7 @@ io.sockets.on("connection", function(socket){
      socket.on("disconnect", function(data)
      {
           let nameIndex = users.indexOf(socket.username);
-          if(nameIndex > 0){
+          if(nameIndex > -1){
                users.splice(nameIndex, 1);
                isUserReady.splice(nameIndex, 1);
                updateUsernames();
@@ -65,10 +67,11 @@ socket.on("ready user", function(ready)
      isUserReady[users.indexOf(socket.username)] = ready;
      updateUsernames();
      //GAME SHOULD START HERE
-     // if(allUsersReady)
-     // {
-     //      startGame();
-     // }
+     if(allUsersReady() && users.length >= MINPLAYERS)
+     {
+          console.log("STARTING GAME...");
+          //startGame();
+     }
 });
 //Update user list
      function updateUsernames(){
@@ -77,6 +80,15 @@ socket.on("ready user", function(ready)
                nameReadyList.push({name: users[i], ready:isUserReady[i]});
           }
           io.sockets.emit("get users", nameReadyList);
+     }
+     //check if every user is ready
+     function allUsersReady()
+     {
+          for(i=0; i<users.length; i++)
+               if(!isUserReady[i]){
+                    return false;
+               }
+          return true;
      }
 
 });
