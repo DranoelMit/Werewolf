@@ -20,13 +20,13 @@ var isNight = false;
 
 //Makes background dark (should toggle?)
      $messageForm.on("click", "#nightButton", function(){
-          if(!isNight){
+          if(isNight){
           $body.css("transition", "2s");
           $body.css("background-image", 'url(../css/daybg.png)');
 
           $nightButton.val("Day Time");
 
-          isNight=true;
+          isNight=false;
           }
           else{
                $body.css("transition", "2s");
@@ -34,7 +34,7 @@ var isNight = false;
 
                $nightButton.val("Night Time");
 
-               isNight=false;
+               isNight=true;
           }
      });
 
@@ -58,8 +58,10 @@ function isAlphaNumeric(str) {
       if(isAlphaNumeric($userInput.val().toString())){
         socket.emit("new user", $userInput.val(), function(data){
              if(data){
-
+                  //switch to lobby view, change to day background
                   $introView.hide();
+                  $body.css("transition", "1s");
+                  $body.css("background-image", 'url(../css/daybg.png)');
                   $lobby.show();
              }
         });
