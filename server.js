@@ -70,7 +70,7 @@ socket.on("ready user", function(ready)
      if(allUsersReady() && users.length >= MINPLAYERS)
      {
           console.log("STARTING GAME...");
-          WerewolfGame(this, io, users, connections);
+          werewolf.WerewolfGame(this, io, users, connections);
 
      }
 });
