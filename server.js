@@ -6,6 +6,12 @@ var io = require("socket.io").listen(server);
 var users = [];
 var isUserReady = [];
 var connections =[];
+const MAXPLAYERS = 3; //CHANGE BACK TO 12
+const callbackStatus = {
+                              good: 0,
+                              nameTaken: 1,
+                              lobbyFull : 2
+                       };
 
 server.listen(process.env.PORT || 8080);
 
@@ -24,9 +30,11 @@ io.sockets.on("connection", function(socket){
      socket.on("disconnect", function(data)
      {
           let nameIndex = users.indexOf(socket.username);
-          users.splice(nameIndex, 1);
-          isUserReady.splice(nameIndex, 1);
-          updateUsernames();
+          if(nameIndex > 0){
+               users.splice(nameIndex, 1);
+               isUserReady.splice(nameIndex, 1);
+               updateUsernames();
+          }
           connections.splice(connections.indexOf(socket), 1);
           console.log("Discconected: " +connections.length + " sockets connected");
      });
@@ -36,15 +44,18 @@ io.sockets.on("connection", function(socket){
      });
 //new user
      socket.on("new user", function(data, callback){
-          if(users.indexOf(data) == -1){
-               callback(true);
+          if(users.indexOf(data) != -1){
+               callback(callbackStatus.nameTaken); //callback status, username taken
+          }
+          else if(!(users.length < MAXPLAYERS)){
+               callback(callbackStatus.lobbyFull);
+          }
+          else{
+               callback(callbackStatus.good); //
                socket.username = data;
                users.push(socket.username);
                isUserReady.push(false);
                updateUsernames();
-          }
-          else{
-               callback(false);
           }
      });
 //Change user ready status

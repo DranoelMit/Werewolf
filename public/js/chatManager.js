@@ -57,15 +57,18 @@ function isAlphaNumeric(str) {
       let name = $userInput.val().toString();
       if(isAlphaNumeric(name)){
         socket.emit("new user", name, function(data){
-             if(data){
+             if(data==0){
                   //switch to lobby view, change to day background
                   $introView.hide();
                   $body.css("transition", "1s");
                   $body.css("background-image", 'url(../css/daybg.png)');
                   $lobby.show();
              }
-             if(!data){
+             if(data==1){
                alert("Username is taken!");
+             }
+             if(data==2){
+                alert("Lobby is full!");
              }
         });
         $userInput.val("");
@@ -78,7 +81,7 @@ function isAlphaNumeric(str) {
 //Client receives user list from server
      socket.on("get users", function(data){
           html ="";
-          $lobbyUserListHeader.html("Lobby (" + data.length + "/36) online");
+          $lobbyUserListHeader.html("Lobby (" + data.length + "/12) online");
           for(i=0; i<data.length; i++){
                if(data[i].ready){
                     html += '<li class="username-list-item   ready">' +data[i].name+'</li>';

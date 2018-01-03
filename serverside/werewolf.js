@@ -4,7 +4,7 @@
 
 // Werewolf player roles
 RoleEnum = {
-    WEREWOLF : 0, 
+    WEREWOLF : 0,
     SEER : 1,
     VILLAGER : 2,
     HUNTER : 3,
@@ -22,7 +22,7 @@ function Player(gc,role)
 {
     this.gc = gc; // Specify the game connection used to connect this player
     this.role = role; // Specify the role of the player
-    
+
 }
 /* EXAMPLE 1: Initialize a player
     var p1 = new Player({"Marcus42",connections[0]},RoleEnum.WEREWOLF)
@@ -42,14 +42,14 @@ function WerewolfGame(serverObj,ioObj,users,connectedSockets)
         // Timmy why.....
         throw new UsernameMismatch();
     }
-    
+
     this.players = new HashTable(25); // Create a hashtable with 24 buckets
     // We must select two indices at random to be the werewolves.
     var sele = new Array(users);
     var conCopy = new Array(connectedSockets);
-    var targLength = sele.length - NUM_WEREWOLVES; // There will be two 
+    var targLength = sele.length - NUM_WEREWOLVES; // There will be two
     var safetyCntr = 0; // Cannot be above 5 attempts
-    var state = RoleEnum.WEREWOLF; 
+    var state = RoleEnum.WEREWOLF;
     while (sele.length > 0)
     {
         // Select random index. That user will become a werewolf
