@@ -29,20 +29,15 @@ function Player(gc,role)
 */
 const NUM_WEREWOLVES = 2;
 const NUM_SEER = 1;
-const NUM_VILLAGER = 1; //shouldnt be a set number? number of players is unknown
+var NUM_VILLAGER = 1; //shouldnt be a set number? number of players is unknown
 const NUM_HUNTER = 1;
-function WerewolfGame(serverObj,ioObj,users,connectedSockets)
+function WerewolfGame(serverObj, ioObj, users, connectedSockets)
 {
     this.serverObj = serverObj;
     this.ioObj = ioObj;
+    // Recalculate the number of villagers
+    NUM_VILLAGER = users.length - NUM_WEREWOLVES - NUM_SEER - NUM_HUNTER;
     // Step 1: Determine random roles for each game connection
-    if (users.length != connectedSockets.length)
-    {
-        // Throw an error: each connection MUST have a coresponding username!
-        // Timmy why.....
-        throw new UsernameMismatch();
-    }
-
     this.players = new HashTable(25); // Create a hashtable with 24 buckets
     // We must select two indices at random to be the werewolves.
     var sele = new Array(users);
@@ -76,6 +71,7 @@ function WerewolfGame(serverObj,ioObj,users,connectedSockets)
     }
     this.Start = function(){
       // This is wherer the while loop will go
+
     };
 }
 
