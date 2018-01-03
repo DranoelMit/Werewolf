@@ -75,7 +75,7 @@ function WerewolfGame(serverObj,ioObj,users,connectedSockets)
         }
     }
     this.Start = function(){
-
+      // This is wherer the while loop will go
     };
 }
 
