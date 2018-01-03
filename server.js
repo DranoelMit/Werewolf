@@ -36,11 +36,16 @@ io.sockets.on("connection", function(socket){
      });
 //new user
      socket.on("new user", function(data, callback){
-          callback(true);
-          socket.username = data;
-          users.push(socket.username);
-          isUserReady.push(false);
-          updateUsernames();
+          if(users.indexOf(data) == -1){
+               callback(true);
+               socket.username = data;
+               users.push(socket.username);
+               isUserReady.push(false);
+               updateUsernames();
+          }
+          else{
+               callback(false);
+          }
      });
 //Change user ready status
 socket.on("ready user", function(ready)

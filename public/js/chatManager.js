@@ -52,11 +52,11 @@ function isAlphaNumeric(str) {
    }
    return true;
  };
-
  $usernameForm.submit(function(e){
       e.preventDefault();
-      if(isAlphaNumeric($userInput.val().toString())){
-        socket.emit("new user", $userInput.val(), function(data){
+      let name = $userInput.val().toString();
+      if(isAlphaNumeric(name)){
+        socket.emit("new user", name, function(data){
              if(data){
                   //switch to lobby view, change to day background
                   $introView.hide();
@@ -64,11 +64,14 @@ function isAlphaNumeric(str) {
                   $body.css("background-image", 'url(../css/daybg.png)');
                   $lobby.show();
              }
+             if(!data){
+               alert("Username is taken!");
+             }
         });
         $userInput.val("");
       }
       else{
-        alert('Input is not alphanumeric');
+        alert('Username is not alphanumeric!');
       }
  });
 
@@ -77,7 +80,6 @@ function isAlphaNumeric(str) {
           html ="";
           $lobbyUserListHeader.html("Lobby (" + data.length + "/36) online");
           for(i=0; i<data.length; i++){
-               console.log(data[i].ready);
                if(data[i].ready){
                     html += '<li class="username-list-item   ready">' +data[i].name+'</li>';
                }
