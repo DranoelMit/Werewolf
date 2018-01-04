@@ -15,31 +15,17 @@ var RoleEnum = {
     MINION : 6
 }
 
-game.GameConnection = function(username,clientObj) //is this supposed to be an object?
-{
-    this.username = username;
-    this.clientObj = clientObj;
-};
-game.Player =function(gc,role) //is this supposed to be an object?
-{
-    this.gc = gc; // Specify the game connection used to connect this player
-    this.role = role; // Specify the role of the player
-
-};
 /* EXAMPLE 1: Initialize a player
     var p1 = new Player({"Marcus42",connections[0]},RoleEnum.WEREWOLF)
 */
-game.WerewolfGameConstruct = function(serverObj, ioObj, users, connectedSockets) //pseudo
+game.WerewolfGameConstruct = function(users) //pseudo
 {
+     console.log("Entering Werewolf Game...");
      const NUM_WEREWOLVES = 2;
      const NUM_SEER = 1;
-     //VILLAGER NUM IS BELOW
      const NUM_HUNTER = 1;
-     console.log("Entering Werewolf Game...");
-    this.serverObj = serverObj;
-    this.ioObj = ioObj;
-    // Recalculate the number of villagers
-    var NUM_VILLAGER = users.length - NUM_WEREWOLVES - NUM_SEER - NUM_HUNTER;
+     const NUM_VILLAGER = users.length - NUM_WEREWOLVES - NUM_SEER - NUM_HUNTER;
+
     // Step 1: Determine random roles for each game connection
     this.players = []// new HashTable(25); // Create a hashtable with 24 buckets   //idk the plan here but its def not working
     // We must select two indices at random to be the werewolves.
@@ -47,21 +33,16 @@ game.WerewolfGameConstruct = function(serverObj, ioObj, users, connectedSockets)
          for(i=0; i<users.length; i++){
            sele[i] = users[i];
          }
-    var conCopy= []; // conCopy is a copy of the connections array
-         for(i=0; i<connectedSockets; i++){
-              conCopy[i] = connectedSockets[i];
-         }
     var targLength = sele.length - NUM_WEREWOLVES; // There will be two
-    var safetyCntr = 0; // Cannot be above 5 attempts
     var state = RoleEnum.WEREWOLF;
     while (sele.length > 0)
     {
         // Select random index. That user will become a werewolf
         var randIndex = Math.floor(Math.random() * sele.length); //if changed to hash add +1
         var username = sele[randIndex];
-        var myGC = new game.GameConnection(username,connectedSockets[randIndex]); //what
 
-        this.players.push({key:username,value: new game.Player(myGC, state)})          //this.players.add({key:username,value: new Player(gc,RoleEnum.WEREWOLF)})
+
+        this.players.push({key:username,role:state})          //this.players.add({key:username,value: new Player(gc,RoleEnum.WEREWOLF)})
         // Remove the user and connection at those indices
         console.log(sele.length);
         sele.splice(randIndex,1);
@@ -74,13 +55,12 @@ game.WerewolfGameConstruct = function(serverObj, ioObj, users, connectedSockets)
             else if (state == RoleEnum.HUNTER) { targLength = sele.length - NUM_HUNTER}
             else if (state == RoleEnum.VILLAGER) { targLength = sele.length - NUM_VILLAGER}
             else {}
-            continue;
          }
             // We are done we should exit,  eh it do that for us
     }
     console.log("Roles complete, the roles are as follows: ")
  for(i=0; i<this.players.length;i++){
-       console.log(this.players[i].key + " is a " + this.players[i].value.role);
+       console.log(this.players[i].key + " is a " + this.players[i].role);
  }
 
 };

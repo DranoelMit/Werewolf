@@ -130,16 +130,25 @@ function isAlphaNumeric(str) {
           }
           let wordRole;
           let roleDecrip;
-          if(myRole==0)
+          if(myRole==0){
             wordRole = "Werewolf";
-          if(myRole==1)
+            roleDecrip = "Eat a villager each night";
+          }
+          if(myRole==1){
             wordRole = "Seer";
-          if(myRole==2)
+            roleDecrip = "Each night, point at a player and learn if they are a Werewolf";
+          }
+          if(myRole==2){
             wordRole = "Hunter";
-          if(myRole==3)
+            roleDecrip = "If you are killed, take someone down with you";
+          }
+          if(myRole==3){
             wordRole = "Villager";
+            roleDecrip = "Find the werewolves and lynch them";
+          }
 
           $nameAndRole.append('<span>' + myName +', your role is ' + wordRole + '</span>');
+          console.log(roleDecrip);
           $gameView.show();
           //probably more stuff here
      });

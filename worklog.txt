@@ -11,7 +11,13 @@ Day 1:
 
 
 
-
+Day 3:
+     -Werewolf game should be irrelevant to clients
+     -SERVER IS STORYTELLER
+     -Server plays the werewolf game and communicates information between clients and the game, no need to send
+     stuff from the game to the clients. all communication is held within server.js
+     -Werewolf.js instead will send blurbs to the server of what turn it is, what needs to be prompted, etc.
+     -Server.js DOES what werewolf decides (just as the storyteller follows the rulebook)
 
 
 

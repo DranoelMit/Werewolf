@@ -92,7 +92,7 @@ socket.on("ready user", function(ready)
      function startGame()
      {
           console.log("STARTING GAME...");
-          var game = new werewolf.WerewolfGameConstruct(this, io, users, connections);
+          var game = new werewolf.WerewolfGameConstruct(users);
           io.sockets.emit("start", game.players);
 
      }
