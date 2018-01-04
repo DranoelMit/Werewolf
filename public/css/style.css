@@ -5,6 +5,7 @@ body
 background-image: url("nightbg.png");
 background-size: cover;
 background-repeat: no-repeat;
+background-color: #615A91;
 }
 @font-face {
      font-family: rothenbg;

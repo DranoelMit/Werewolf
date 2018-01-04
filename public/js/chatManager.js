@@ -27,6 +27,8 @@ var isNight = false;
           if(isNight){
           $body.css("transition", "2s");
           $body.css("background-image", 'url(../css/daybg.png)');
+          $body.css("background-color", "#6A56F4");
+
 
           $nightButton.val("Day Time");
 
@@ -35,6 +37,7 @@ var isNight = false;
           else{
                $body.css("transition", "2s");
                $body.css("background-image", 'url(../css/nightbg.png)');
+               $body.css("background-color", "#615A91");
 
                $nightButton.val("Night Time");
 
@@ -66,6 +69,7 @@ function isAlphaNumeric(str) {
                   $introView.hide();
                   $body.css("transition", "1s");
                   $body.css("background-image", 'url(../css/daybg.png)');
+                  $body.css("background-color", "#6A56F4");
                   $lobby.show();
                   myName = name;
              }
