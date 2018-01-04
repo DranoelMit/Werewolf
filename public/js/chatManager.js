@@ -15,6 +15,10 @@
      var $lobbyUserListHeader = $("#lobbyUserListHeader")
      var $ReadyButtonForm = $("#ReadyButtonForm");
      var $ReadyButton = $("#ReadyButton");
+     var $gameView = $("#gameView");
+     var $nameAndRole = $("#nameAndRole");
+
+     var myName;
 
 var isNight = false;
 
@@ -63,6 +67,7 @@ function isAlphaNumeric(str) {
                   $body.css("transition", "1s");
                   $body.css("background-image", 'url(../css/daybg.png)');
                   $lobby.show();
+                  myName = name;
              }
              if(data==1){
                alert("Username is taken!");
@@ -109,4 +114,11 @@ function isAlphaNumeric(str) {
 
      $ReadyButtonForm.on("click", "#ReadyButton", function(){
           socket.emit("ready user",  true);
+     });
+//client gets notified that the game is starting
+     socket.on("start", function(/*send role*/){
+          $lobby.hide();
+          $nameAndRole.append('<span>' + myName +', your role is ' + /* add role*/ '</span>');
+          $gameView.show();
+          //probably more stuff here
      });

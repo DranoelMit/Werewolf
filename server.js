@@ -69,9 +69,7 @@ socket.on("ready user", function(ready)
      //GAME SHOULD START HERE
      if(allUsersReady() && users.length >= MINPLAYERS)
      {
-          console.log("STARTING GAME...");
-          werewolf.WerewolfGame(this, io, users, connections);
-
+          startGame();
      }
 });
 //Update user list
@@ -90,6 +88,13 @@ socket.on("ready user", function(ready)
                     return false;
                }
           return true;
+     }
+     function startGame()
+     {
+          console.log("STARTING GAME...");
+          //werewolf.WerewolfGame(this, io, users, connections);
+          io.sockets.emit("start", /*send role*/);
+
      }
 
 });

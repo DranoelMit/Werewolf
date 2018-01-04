@@ -1,6 +1,10 @@
+/*prob should make this responsive eventually*/
+
 body
 {
 background-image: url("nightbg.png");
+background-size: cover;
+background-repeat: no-repeat;
 }
 @font-face {
      font-family: rothenbg;
@@ -66,4 +70,49 @@ width: 60%;
 .ready
 {
      color: #00aa00;
+}
+#gameView
+{
+     display: none;
+}
+#villageChat
+{
+     position: fixed;
+     height: 100%;
+     width: 20%;
+     right: 0;
+     top: 0;
+     overflow: auto;
+     display: flex;
+     flex-direction: column-reverse;
+     border: 3px solid;
+     border-color: #aaaaaa;
+     border-radius: 1px;
+     background-color: #ffffff;
+}
+#nameAndRole
+{
+     left:0;
+     top:0;
+     position: fixed;
+     font-size: 16pt;
+     color:#ffffff;
+}
+#stDialogue
+{
+     margin-top: 5%;
+     border: 3px solid;
+     border-color: #ffffff;
+     text-align: center;
+     width:80%;
+     height: 100px;
+}
+#promptZone
+{
+     margin-top: 5%;
+     border: 3px solid;
+     border-color: #ffffff;
+     text-align: center;
+     width: 80%;
+     height: 300px;
 }
