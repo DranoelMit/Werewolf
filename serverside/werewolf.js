@@ -1,13 +1,14 @@
 /* Werewolf.js -- Server logic and async loops for gameplay
     [1] Code written as functions so it may be implemented with currrent server
 */
+//packaged essential parts of the game into an export
 var game = {};
 // Werewolf player roles
 var RoleEnum = {
     WEREWOLF : 0,
     SEER : 1,
-    VILLAGER : 2,
-    HUNTER : 3,
+    HUNTER : 2,
+    VILLAGER : 3,
     // Secondary roles. Will be implemented in next version
     PRIEST : 4,
     TANNER : 5,
@@ -28,11 +29,11 @@ game.Player =function(gc,role) //is this supposed to be an object?
 /* EXAMPLE 1: Initialize a player
     var p1 = new Player({"Marcus42",connections[0]},RoleEnum.WEREWOLF)
 */
-game.WerewolfGame = function(serverObj, ioObj, users, connectedSockets) //pseudo
+game.WerewolfGameConstruct = function(serverObj, ioObj, users, connectedSockets) //pseudo
 {
      const NUM_WEREWOLVES = 2;
      const NUM_SEER = 1;
-
+     //VILLAGER NUM IS BELOW
      const NUM_HUNTER = 1;
      console.log("Entering Werewolf Game...");
     this.serverObj = serverObj;
@@ -40,37 +41,47 @@ game.WerewolfGame = function(serverObj, ioObj, users, connectedSockets) //pseudo
     // Recalculate the number of villagers
     var NUM_VILLAGER = users.length - NUM_WEREWOLVES - NUM_SEER - NUM_HUNTER;
     // Step 1: Determine random roles for each game connection
-    this.players = new HashTable(25); // Create a hashtable with 24 buckets   //idk the plan here but its def not working
+    this.players = []// new HashTable(25); // Create a hashtable with 24 buckets   //idk the plan here but its def not working
     // We must select two indices at random to be the werewolves.
-    var sele = new Array(users); //sele is a copy of user array
-    var conCopy = new Array(connectedSockets); // conCopy is a copy of the connections array
+    var sele = []; //sele is a copy of user array  //new Array DOES NOT COPY, adds array into an array
+         for(i=0; i<users.length; i++){
+           sele[i] = users[i];
+         }
+    var conCopy= []; // conCopy is a copy of the connections array
+         for(i=0; i<connectedSockets; i++){
+              conCopy[i] = connectedSockets[i];
+         }
     var targLength = sele.length - NUM_WEREWOLVES; // There will be two
     var safetyCntr = 0; // Cannot be above 5 attempts
     var state = RoleEnum.WEREWOLF;
     while (sele.length > 0)
     {
         // Select random index. That user will become a werewolf
-        var randIndex = Math.floor(Math.random() * sele.length) + 1;
+        var randIndex = Math.floor(Math.random() * sele.length); //if changed to hash add +1
         var username = sele[randIndex];
-        var myGC = new GameConnection(username,connectedSockets[randIndex]); //what
+        var myGC = new game.GameConnection(username,connectedSockets[randIndex]); //what
 
-        this.players.add({key:username,value: new Player(gc,RoleEnum.WEREWOLF)})
+        this.players.push({key:username,value: new game.Player(myGC, state)})          //this.players.add({key:username,value: new Player(gc,RoleEnum.WEREWOLF)})
         // Remove the user and connection at those indices
+        console.log(sele.length);
         sele.splice(randIndex,1);
+
         conCopy.splice(randIndex,1);
-        if (sele.length == targLength)
-        {
+        if(sele.length == targLength){
             // We need to switch to the next state
             state += 1;
             if (state == RoleEnum.SEER) { targLength = sele.length - NUM_SEER}
-            else if (state == RoleEnum.VILLAGER) { targLength = sele.length - NUM_VILLAGER}
             else if (state == RoleEnum.HUNTER) { targLength = sele.length - NUM_HUNTER}
-            else {
-                // We are done we should exit
-                break;
-            }
-        }
+            else if (state == RoleEnum.VILLAGER) { targLength = sele.length - NUM_VILLAGER}
+            else {}
+            continue;
+         }
+            // We are done we should exit,  eh it do that for us
     }
+    console.log("Roles complete, the roles are as follows: ")
+ for(i=0; i<this.players.length;i++){
+       console.log(this.players[i].key + " is a " + this.players[i].value.role);
+ }
 
 };
 game.Start = function(){

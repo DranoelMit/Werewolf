@@ -1,4 +1,4 @@
-
+//selectors
      var socket = io.connect();
      var $body = $("body");
      var $introView = $("#introView");
@@ -17,8 +17,9 @@
      var $ReadyButton = $("#ReadyButton");
      var $gameView = $("#gameView");
      var $nameAndRole = $("#nameAndRole");
-
+//not selectors
      var myName;
+     var myRole;
 
 var isNight = false;
 
@@ -62,7 +63,7 @@ function isAlphaNumeric(str) {
  $usernameForm.submit(function(e){
       e.preventDefault();
       let name = $userInput.val().toString();
-      if(isAlphaNumeric(name)){
+      if(isAlphaNumeric(name) && name.length>0){
         socket.emit("new user", name, function(data){
              if(data==0){
                   //switch to lobby view, change to day background
@@ -120,9 +121,25 @@ function isAlphaNumeric(str) {
           socket.emit("ready user",  true);
      });
 //client gets notified that the game is starting
-     socket.on("start", function(/*send role*/){
+     socket.on("start", function(playerList){
           $lobby.hide();
-          $nameAndRole.append('<span>' + myName +', your role is ' + /* add role*/ '</span>');
+          for(var i=0; i<playerList.length;i++){
+               if(myName==playerList[i].key){
+                 myRole = playerList[i].role;
+               }
+          }
+          let wordRole;
+          let roleDecrip;
+          if(myRole==0)
+            wordRole = "Werewolf";
+          if(myRole==1)
+            wordRole = "Seer";
+          if(myRole==2)
+            wordRole = "Hunter";
+          if(myRole==3)
+            wordRole = "Villager";
+
+          $nameAndRole.append('<span>' + myName +', your role is ' + wordRole + '</span>');
           $gameView.show();
           //probably more stuff here
      });

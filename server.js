@@ -92,8 +92,8 @@ socket.on("ready user", function(ready)
      function startGame()
      {
           console.log("STARTING GAME...");
-          //werewolf.WerewolfGame(this, io, users, connections);
-          io.sockets.emit("start", /*send role*/);
+          var game = new werewolf.WerewolfGameConstruct(this, io, users, connections);
+          io.sockets.emit("start", game.players);
 
      }
 
