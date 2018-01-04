@@ -114,6 +114,7 @@ function isAlphaNumeric(str) {
 //Client recieves message from server
      socket.on("new message", function(data){
           //prepend --> opposite order of append (so messages are at bottom)
+          //TODO store $chat in a currentChat variable, CHNAGE this to point at villageChat once game starts
           $chat.prepend('<div class="newMessage"><span class="username">'+data.user+': </span>'+data.msg+'</div>');
      });
 
@@ -132,23 +133,22 @@ function isAlphaNumeric(str) {
           let roleDecrip;
           if(myRole==0){
             wordRole = "Werewolf";
-            roleDecrip = "Eat a villager each night";
+           // roleDecrip = "Eat a villager each night";
           }
           if(myRole==1){
             wordRole = "Seer";
-            roleDecrip = "Each night, point at a player and learn if they are a Werewolf";
+            //roleDecrip = "Each night, point at a player and learn if they are a werewolf";
           }
           if(myRole==2){
             wordRole = "Hunter";
-            roleDecrip = "If you are killed, take someone down with you";
+           // roleDecrip = "If you are killed, take someone down with you";
           }
           if(myRole==3){
             wordRole = "Villager";
-            roleDecrip = "Find the werewolves and lynch them";
+           // roleDecrip = "Find the werewolves and lynch them";
           }
 
           $nameAndRole.append('<span>' + myName +', your role is ' + wordRole + '</span>');
-          console.log(roleDecrip);
           $gameView.show();
           //probably more stuff here
      });

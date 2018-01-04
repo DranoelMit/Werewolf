@@ -44,10 +44,10 @@ game.WerewolfGameConstruct = function(users) //pseudo
 
         this.players.push({key:username,role:state})          //this.players.add({key:username,value: new Player(gc,RoleEnum.WEREWOLF)})
         // Remove the user and connection at those indices
-        console.log(sele.length);
+        
         sele.splice(randIndex,1);
 
-        conCopy.splice(randIndex,1);
+
         if(sele.length == targLength){
             // We need to switch to the next state
             state += 1;
@@ -62,11 +62,16 @@ game.WerewolfGameConstruct = function(users) //pseudo
  for(i=0; i<this.players.length;i++){
        console.log(this.players[i].key + " is a " + this.players[i].role);
  }
+//end of constructor
 
-};
-game.Start = function(){
-// This is wherer the while loop will go
-// should be called in server
+
+
+//THIS IS WHERE THE METHODS OF THE GAME WILL GO
+//_______________________________________________________________________________
+          this.Start = function(){
+                     // This is wherer the while loop will go
+                     // should be called in server
+          };
 };
 // Players should be mapped into a map with dictionaries as elements
 // to sort them for easy access
