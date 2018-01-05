@@ -2,7 +2,7 @@ var express = require("express");
 var app = express();
 var server = require("http").createServer(app);
 var io = require("socket.io").listen(server);
-var werewolf = require("./serverside/werewolf.js");
+var WerewolfGame = require("./serverside/WerewolfGame.js");
 
 var users = [];
 var isUserReady = [];
@@ -92,7 +92,7 @@ socket.on("ready user", function(ready)
      function startGame()
      {
           console.log("STARTING GAME...");
-          var game = new werewolf.WerewolfGameConstruct(users);
+          var game = new WerewolfGame(users);
           io.sockets.emit("start", game.players);
 
      }

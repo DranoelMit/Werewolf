@@ -2,10 +2,11 @@
      var socket = io.connect();
      var $body = $("body");
      var $introView = $("#introView");
-     var $chatArea = $("#chatArea");
-     var $messageForm = $("#messageForm");
-     var $message = $("#message");
-     var $chat = $("#chat");
+     var $loginErr = $("#loginErr");
+     var $lobbyChatArea = $("#chatArea");
+     var $lobbyMessageForm = $("#lobbyMessageForm");
+     var $lobbyChatInput = $("#lobbyChatInput");
+     var $lobbyChat = $("#lobbyChat");
      var $usernameForm = $("#usernameForm");
      var $users = $("#users");
      var $userInput = $("#userInput");
@@ -17,14 +18,21 @@
      var $ReadyButton = $("#ReadyButton");
      var $gameView = $("#gameView");
      var $nameAndRole = $("#nameAndRole");
+     var $villageChat = $("#villageChat");
+     var $villageChatForm = $("#villageChatForm");
+     var $villageChatInput = $("#villageChatInput");
+
+
 //not selectors
      var myName;
      var myRole;
 
+     var currentChat;
+
 var isNight = false;
 
 //Makes background dark (should toggle?)
-     $messageForm.on("click", "#nightButton", function(){
+     $lobbyMessageForm.on("click", "#nightButton", function(){
           if(isNight){
           $body.css("transition", "2s");
           $body.css("background-image", 'url(../css/daybg.png)');
@@ -71,20 +79,24 @@ function isAlphaNumeric(str) {
                   $body.css("transition", "1s");
                   $body.css("background-image", 'url(../css/daybg.png)');
                   $body.css("background-color", "#6A56F4");
+                  currentChat = $lobbyChat;
                   $lobby.show();
                   myName = name;
              }
              if(data==1){
-               alert("Username is taken!");
+               $loginErr.html("Username is taken!");
+                $loginErr.css("visibility", "visible");
              }
              if(data==2){
-                alert("Lobby is full!");
+                $loginErr.html("Lobby is full!");
+                $loginErr.css("visibility", "visible");
              }
         });
         $userInput.val("");
       }
       else{
-        alert('Username is not alphanumeric!');
+           $loginErr.html("Username is not alphanumeric!")
+           $loginErr.css("visibility", "visible");
       }
  });
 
@@ -104,18 +116,28 @@ function isAlphaNumeric(str) {
      });
 
 //Client Sends message to server
-     $messageForm.submit(function(e){
+     $lobbyMessageForm.submit(function(e){
           e.preventDefault();
-          socket.emit("send message", $message.val());
-          $message.val("");
+          if($lobbyChatInput.val()!=""){
+              socket.emit("send message", $lobbyChatInput.val());
+              $lobbyChatInput.val("");
+          }
+     });
+//Client sends message to server (in game)
+     $villageChatForm.submit(function(e){
+          e.preventDefault();
+          if($villageChatInput.val() !="") {
+               socket.emit("send message", $villageChatInput.val());
+               $villageChatInput.val("");
+          }
      });
 
 
 //Client recieves message from server
      socket.on("new message", function(data){
           //prepend --> opposite order of append (so messages are at bottom)
-          //TODO store $chat in a currentChat variable, CHNAGE this to point at villageChat once game starts
-          $chat.prepend('<div class="newMessage"><span class="username">'+data.user+': </span>'+data.msg+'</div>');
+          //TODO store $lobbyChat in a currentChat variable, CHNAGE this to point at villageChat once game starts
+          currentChat.prepend('<div class="newMessage"><span class="username">'+data.user+': </span>'+data.msg+'</div>');
      });
 
      $ReadyButtonForm.on("click", "#ReadyButton", function(){
@@ -125,7 +147,7 @@ function isAlphaNumeric(str) {
      socket.on("start", function(playerList){
           $lobby.hide();
           for(var i=0; i<playerList.length;i++){
-               if(myName==playerList[i].key){
+               if(myName==playerList[i].name){
                  myRole = playerList[i].role;
                }
           }
@@ -149,6 +171,7 @@ function isAlphaNumeric(str) {
           }
 
           $nameAndRole.append('<span>' + myName +', your role is ' + wordRole + '</span>');
+          currentChat = $villageChat;
           $gameView.show();
           //probably more stuff here
      });

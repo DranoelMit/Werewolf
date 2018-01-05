@@ -25,6 +25,13 @@ background-color: #615A91;
      font-size: 80pt;
      font-weight: 500;
 }
+#loginErr
+{
+     color: #ff0000;
+     font-size: 14pt;
+     visibility: hidden;
+
+}
 #userInput
 {
 width: 60%;
@@ -33,11 +40,12 @@ width: 60%;
 {
      color: #000000;
 }
-#chat
+#lobbyChat
 {
 
      height: 300px;
      overflow: auto;
+     overflow-x: hidden;
      display: flex;
      flex-direction: column-reverse;
      border: 3px solid;
@@ -79,7 +87,7 @@ width: 60%;
 #villageChat
 {
      position: fixed;
-     height: 100%;
+     height: 95%;
      width: 20%;
      right: 0;
      top: 0;
@@ -90,6 +98,7 @@ width: 60%;
      border-color: #aaaaaa;
      border-radius: 1px;
      background-color: #ffffff;
+     overflow-x: hidden;
 }
 #nameAndRole
 {
@@ -116,4 +125,13 @@ width: 60%;
      text-align: center;
      width: 80%;
      height: 300px;
+}
+#villageChatInput
+{
+     height: 5%;
+     width: 20%;
+     position: fixed;
+     right: 0;
+     bottom:0;
+     display: block;
 }

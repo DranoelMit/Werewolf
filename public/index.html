@@ -11,17 +11,23 @@
      </head>
 
      <body>
+
+
+
           <div class="container">
                <!-- This is the first "page"  -->
                <div id="introView">
                     <h2 id="mainTitle"> Werewolf </h2>
-
+                    <p id="loginErr">Erros appear here <p>
                     <form id="usernameForm">
                          <input id="userInput" class="form-group" type="text" placeholder="Enter a username to join the lobby" autocomplete="off" autofocus/>
                     </form>
                     <p id="whatIs">Werewolf is a multiplayer game where each player is assigned a role, and the village folk must identify the murderous werewolfs
                           before it is too late! Read the full rules <a href="https://www.playwerewolf.co/rules/">here</a>.</p>
                </div>
+
+
+
                <!-- This is the second "page"  -->
                <div id="lobby">
                     <div id="lobbyUserList" class="col-md-2">
@@ -36,10 +42,10 @@
                     <div id="chatArea"  class="col-md-8">
 
                          <div class="col-md-8">
-                              <div class="chat" id="chat"></div>
-                              <form id="messageForm" >
+                              <div class="chat" id="lobbyChat"></div>
+                              <form id="lobbyMessageForm" >
                                    <div class="form-group">
-                                        <input class="form-control" id="message" type="text" placeholder="Enter a message" autocomplete="off"/>
+                                        <input id="lobbyChatInput" type="text" placeholder="Enter a message" autocomplete="off"/>
                                         <input id="nightButton" type="button" value="Night Time"/>
                                    </div>
                               </form>
@@ -47,11 +53,16 @@
                     </div>
                </div>
 
+
+
+
+
+
                <!-- This is the third "page"  -->
                     <!-- THE GAME STARTS HERE-->
                <div id="gameView">
                          <div id="nameAndRole">
-                              
+
                          </div>
                          <div id="stDialogue">
                          </div>
@@ -59,6 +70,9 @@
                          </div>
                          <div id="villageChat">
                          </div>
+                         <form id="villageChatForm">
+                              <input id="villageChatInput" type="text" placeholder="Enter a message"/>
+                         </form>
                </div>
           </div>
           <script src="js/chatManager.js"></script>
