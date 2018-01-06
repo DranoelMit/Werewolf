@@ -21,8 +21,8 @@
      var $villageChat = $("#villageChat");
      var $villageChatForm = $("#villageChatForm");
      var $villageChatInput = $("#villageChatInput");
-     var $promptZone = $("promptZone");
-     var $dayForm = ("#dayForm");
+     var $promptZone = $("#promptZone");
+
 
 //not selectors
      var myName;
@@ -180,14 +180,12 @@ function isAlphaNumeric(str) {
      });
 
      socket.on("day", function(){
-
           $promptZone.prepend("<p> Who do you vote to lynch? </p>");
-          let dayForm = '<form id="dayForm"></form>';
-          $promptZone.append(dayForm);
-          //$dayForm = $("#dayForm");
-          for(i=0; i<serverPlayerList; i++){
-               if(serverPlayerList[i].alive)
-                    $dayForm.append('<input type="radio" value="'+ serverPlayerList[i].name +'"/><span>' + serverPlayerList[i].name + '</span><br>');
+          let dayForm = '<form id="dayForm">';
+
+          for(i=0; i<serverPlayerList.length; i++){
+               dayForm+= '<input type="radio" name="villageList" value="'+ serverPlayerList[i].name +'"/><span>' + serverPlayerList[i].name + '</span><br>';
           }
-          $dayForm.append('<input id="dayFormButton" type="button" value="Vote"/>');
+          dayForm+= '<input id="dayFormButton" type="button" value="Vote"/></form>';
+          $promptZone.append(dayForm);
      });
