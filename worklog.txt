@@ -21,6 +21,70 @@ Day 3:
 
 
 
+
+Day 4:
+
+Hows the game going to work?
+
+
+//START =========================================================================
+start game is called when everyone in the lobby is Ready
+
+the clients are told to change the view to gameView and each user is given their Role
+
+based on role, the seer(and eventually other roles) should be prompted about their night skills
+     edit: where do these responses go?
+          Well, for seer, it need not go anywhere. The client has sufficient information to tell that user if the person
+          they wish to inspect is a werewolf or not
+
+          NOTE: FOR EACH TURN, needs to be a "done Counter" so that the game waits for every player to Finish
+          the available actions
+          IF(doneCount == users.length) //Call day if Night, Call night if day
+
+Solution: scaffold cycle (probably a name for this, its really basic, but i like scaffold cycle)
+     Not reliant on time but instead the last user interaction of each "round"
+     Server                   Client
+
+     Send event
+               \
+                  \
+                     \
+                        \
+                          \
+                              recieve event
+                              do stuff
+                              send event
+                            /
+                         /
+                       /
+                     /
+                  /
+     Recieve event
+     DO stuff
+     wait for all users to respond
+     check if game over
+     record changes based on responses
+     send event
+                    --Repeat until win condition is met--
+
+
+     TODO:
+          1 finish start
+          2 create win condition boolean function
+          3 create day/night cycle (similar to )
+
+==================================================================================
+
+
+
+
+
+
+
+
+
+
+
 -----------------Username Prompt---------------------------------------
 
 **make username submissions alpha numeric
