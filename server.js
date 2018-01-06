@@ -89,12 +89,50 @@ socket.on("ready user", function(ready)
                }
           return true;
      }
-     function startGame()
-     {
+     function startGame(){
           console.log("STARTING GAME...");
           var game = new WerewolfGame(users);
           io.sockets.emit("start", game.players);
 
+          serverDay();
+
      }
+     function serverDay(){
+
+          io.sockets.emit("day");
+          var dayResList =[];
+          socket.on("day res", function(dayRes){
+               dayResList.push(dayRes);
+
+               if(dayResList.length == users.length){
+               game.day(dayResList); //changes game.players based on Vote
+               io.sockets.emit("day summary", game.players); //client needs to figure out who died based on change in .alive booleans (in response to day summary request)
+
+               if(game.isGameOver) gameOver();
+               else serverNight();
+               }
+          });
+     }
+     function serverNight(){
+
+          io.sockets.emit("night");
+          var nightResList =[];
+          socket.on("night res", function(nightRes){
+               nightResList.push(nightRes);
+
+               if(nightResList.length == game.numWolfs){
+               game.night(nightResList); //changes game.players based on Vote
+               io.sockets.emit("night summary", game.players); //client needs to figure out who died based on change in .alive booleans (in response to day summary request)
+
+               if(game.isGameOver) gameOver();
+               else serverDay();
+               }
+          });
+     }
+     function gameOver(){
+          let resultMessage = game.results();
+          io.sockets.emit("game over", resultMessage);
+     }
+
 
 });

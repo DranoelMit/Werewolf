@@ -25,6 +25,7 @@ Day 3:
 Day 4:
 
 Hows the game going to work?
+Possible bug --> 1 werewolf and 1 villager left?
 
 
 //START =========================================================================
@@ -41,8 +42,11 @@ based on role, the seer(and eventually other roles) should be prompted about the
           the available actions
           IF(doneCount == users.length) //Call day if Night, Call night if day
 
-Solution: scaffold cycle (probably a name for this, its really basic, but i like scaffold cycle)
+Solution: scaffold cycle (probably a name for this, its really basic, but I like scaffold cycle)
      Not reliant on time but instead the last user interaction of each "round"
+
+     scaffold because....it looks like it with the crisscross pattern
+
      Server                   Client
 
      Send event
@@ -51,7 +55,7 @@ Solution: scaffold cycle (probably a name for this, its really basic, but i like
                      \
                         \
                           \
-                              recieve event
+                              receive event
                               do stuff
                               send event
                             /
@@ -59,7 +63,7 @@ Solution: scaffold cycle (probably a name for this, its really basic, but i like
                        /
                      /
                   /
-     Recieve event
+     Receive event
      DO stuff
      wait for all users to respond
      check if game over
@@ -69,8 +73,8 @@ Solution: scaffold cycle (probably a name for this, its really basic, but i like
 
 
      TODO:
-          1 finish start
-          2 create win condition boolean function
+          1 ----nothing ----
+          2 create win condition boolean function (DONE)
           3 create day/night cycle (similar to )
 
 ==================================================================================
@@ -122,7 +126,8 @@ Things to track:
      -Night and Day Cycle (# of alive, to check if game is over)
           numWerewolves && one or more werewolves are alive, werewolves win
           all werewolfs are dead, villagers win
-     Day time //////////////////////////////////////////////
+     Day time //////////////////////////////////
+     ////////////
      Clear the chat before the start of each day(so people dont see werewolf chats)
           End of day -> vote on who to kill
                -Radio button form

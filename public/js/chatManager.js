@@ -21,15 +21,16 @@
      var $villageChat = $("#villageChat");
      var $villageChatForm = $("#villageChatForm");
      var $villageChatInput = $("#villageChatInput");
-
+     var $promptZone = $("promptZone");
+     var $dayForm = ("#dayForm");
 
 //not selectors
      var myName;
      var myRole;
-
+     var serverPlayerList;
      var currentChat;
+     var isNight = false;
 
-var isNight = false;
 
 //Makes background dark (should toggle?)
      $lobbyMessageForm.on("click", "#nightButton", function(){
@@ -145,6 +146,9 @@ function isAlphaNumeric(str) {
      });
 //client gets notified that the game is starting
      socket.on("start", function(playerList){
+
+          serverPlayerList = playerList;
+
           $lobby.hide();
           for(var i=0; i<playerList.length;i++){
                if(myName==playerList[i].name){
@@ -173,5 +177,17 @@ function isAlphaNumeric(str) {
           $nameAndRole.append('<span>' + myName +', your role is ' + wordRole + '</span>');
           currentChat = $villageChat;
           $gameView.show();
-          //probably more stuff here
+     });
+
+     socket.on("day", function(){
+
+          $promptZone.prepend("<p> Who do you vote to lynch? </p>");
+          let dayForm = '<form id="dayForm"></form>';
+          $promptZone.append(dayForm);
+          //$dayForm = $("#dayForm");
+          for(i=0; i<serverPlayerList; i++){
+               if(serverPlayerList[i].alive)
+                    $dayForm.append('<input type="radio" value="'+ serverPlayerList[i].name +'"/><span>' + serverPlayerList[i].name + '</span><br>');
+          }
+          $dayForm.append('<input id="dayFormButton" type="button" value="Vote"/>');
      });

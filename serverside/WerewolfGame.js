@@ -72,8 +72,65 @@ game = class WerewolfGame {
 
 //THIS IS WHERE THE METHODS OF THE GAME WILL GO
 //_______________________________________________________________________________
-          start(){
 
+
+          day(/*List of Villager vote */){
+//sift through list, person who's nmame appears the most on the list set to alive to false
+
+
+//returns string, if string is "ERR_TIE", then call day again. if not, call night
+          }
+
+
+
+          night(/* Werewolf Vote */){
+//same thing as day, but only werewolfs vote
+//returns string, if string is "ERR_TIE", then call night again. if not, call day
+          }
+
+          get numWolfs(){
+               return NUM_WEREWOLVES;
+          }
+
+          isGameOver(){
+               //two win conditions: ONLY WEREWOLFS ARE ALIVE or ALL WEREWOLVES ARE DEAD AND at least 1 villager is alive
+               let numAliveWolves=0;
+               let numAliveVillagers = 0;
+               for(i=0; i<this.players.length; i++){
+                    if(this.players[i].alive && this.players[i].role == RoleEnum.WEREWOLF ){
+                         numAliveWolves++;
+                    }
+               }
+               for(i=0; i<this.players.length; i++){
+                    if(this.players[i].alive && this.players[i].role != RoleEnum.WEREWOLF ){
+                         numAliveVillagers++;
+                    }
+                    if(numAliveWolves==0 && numAliveVillagers>=1)
+                         return true;
+                    else if(numAliveWolves>0 && numAliveVillagers<=1)
+                         return true;
+                    else
+                      return false;
+               }
+          }
+
+           results(){
+            let numAliveWolves=0;
+            let numAliveVillagers = 0;
+            for(i=0; i<this.players.length; i++){
+                 if(this.players[i].alive && this.players[i].role == RoleEnum.WEREWOLF ){
+                      numAliveWolves++;
+                 }
+           }
+            for(i=0; i<this.players.length; i++){
+                 if(this.players[i].alive && this.players[i].role != RoleEnum.WEREWOLF ){
+                      numAliveVillagers++;
+                 }
+                 if(numAliveWolves==0 && numAliveVillagers>=1)
+                      return "Werewolves win!";
+                 else if(numAliveWolves>0 && numAliveVillagers<=1)
+                      return "Villagers win!";
+            }
           }
 }
 // Players should be mapped into a map with dictionaries as elements
