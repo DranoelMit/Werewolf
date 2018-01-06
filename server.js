@@ -7,6 +7,10 @@ var WerewolfGame = require("./serverside/WerewolfGame.js");
 var users = [];
 var isUserReady = [];
 var connections =[];
+
+var dayResList =[];
+var nightResList =[];
+
 const MAXPLAYERS = 12;
 const MINPLAYERS = 4;
 const callbackStatus = {
@@ -100,12 +104,14 @@ socket.on("ready user", function(ready)
      function serverDay(){
 
           io.sockets.emit("day");
-          var dayResList =[];
+
           socket.on("day res", function(dayRes){
                dayResList.push(dayRes);
-
+               for(i=0; i<dayResList.length; i++)
+                    console.log(dayResList[i]);
                if(dayResList.length == users.length){
                game.day(dayResList); //changes game.players based on Vote
+               dayResList=[];
                io.sockets.emit("day summary", game.players); //client needs to figure out who died based on change in .alive booleans (in response to day summary request)
 
                if(game.isGameOver) gameOver();
@@ -116,12 +122,13 @@ socket.on("ready user", function(ready)
      function serverNight(){
 
           io.sockets.emit("night");
-          var nightResList =[];
+
           socket.on("night res", function(nightRes){
                nightResList.push(nightRes);
 
                if(nightResList.length == game.numWolfs){
                game.night(nightResList); //changes game.players based on Vote
+               nightResList =[];
                io.sockets.emit("night summary", game.players); //client needs to figure out who died based on change in .alive booleans (in response to day summary request)
 
                if(game.isGameOver) gameOver();
