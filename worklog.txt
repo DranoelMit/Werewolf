@@ -80,7 +80,17 @@ Solution: scaffold cycle (probably a name for this, its really basic, but I like
 ==================================================================================
 
 
+Day 5:
+     Processing of day lynch votes works on the server side
 
+     TODO:
+          1) Can submit vote without selecting a radio button
+          2) put dialogue above vote in the div above it not prompt promptZone
+          3) properly adjust the client side players list and listen/react to "day summary" emit
+          4) make night work, like day but:
+               a) werewolf chat?
+               b) seer prompt?
+               c) neither for villager?
 
 
 

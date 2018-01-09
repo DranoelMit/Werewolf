@@ -74,16 +74,52 @@ game = class WerewolfGame {
 //_______________________________________________________________________________
 
 
-          day(/*List of Villager vote */){
+          day(dayResList){
 //sift through list, person who's nmame appears the most on the list set to alive to false
-
+               var modeMap = {};
+               var modeEl = dayResList[0];
+               var maxCount = 1;
+               var retString;
+               var duplicates =0;
+               for(i = 0; i < dayResList.length; i++)
+               {
+                    var el = dayResList[i];
+                    if(modeMap[el] == null)
+                         modeMap[el] = 1;
+                    else
+                         modeMap[el]++;
+                    if(modeMap[el] > maxCount)
+                    {
+                         modeEl = el;
+                         maxCount = modeMap[el];
+                    }
+               }
+               //make sure there is not a tie (have to restart vote if there is)
+               for(let key in modeMap){
+                    if(modeMap[key]==maxCount){
+                         duplicates++;
+                    }
+               }
+               if(duplicates>1){
+                    retString="ERR_TIE";
+               }
+               //no tie, kill mode player
+               else{
+                    for(i=0; i<this.players.length; i++){
+                         if(this.players[i].name === modeEl)
+                              this.players[i].alive = false;
+                    }
+                    retString =  modeEl;
+               }
+               return retString;
+               }
 
 //returns string, if string is "ERR_TIE", then call day again. if not, call night
-          }
 
 
 
-          night(/* Werewolf Vote */){
+
+          night(nightResList){
 //same thing as day, but only werewolfs vote
 //returns string, if string is "ERR_TIE", then call night again. if not, call day
           }

@@ -181,11 +181,12 @@ function isAlphaNumeric(str) {
      });
 
      socket.on("day", function(){
-          $promptZone.prepend("<p> Who do you vote to lynch? </p>");
+          $promptZone.prepend('<p id="dayFormHeader"> Who do you vote to lynch? </p>');
           let dayFormAdd = '';
 
           for(i=0; i<serverPlayerList.length; i++){
-               dayFormAdd+= '<input type="radio" name="villageList" value="'+ serverPlayerList[i].name +'"/><span>' + serverPlayerList[i].name + '</span><br>';
+               if(serverPlayerList[i].alive)
+                    dayFormAdd+= '<input type="radio" name="villageList" value="'+ serverPlayerList[i].name +'"/><span>' + serverPlayerList[i].name + '</span><br>';
           }
           dayFormAdd+= '<input id="dayFormButton" type="button" value="Vote"/></form>';
           $dayForm.append(dayFormAdd);
@@ -196,5 +197,7 @@ function isAlphaNumeric(str) {
           let dayVote = $('input[name=villageList]:checked').val(); //get selected radio button
           if(dayVote!=="undefined"){
                socket.emit("day res", dayVote);
+               $dayForm.html("");
+               $("#dayFormHeader").html("");
           }
      });

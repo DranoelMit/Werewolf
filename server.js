@@ -7,7 +7,7 @@ var WerewolfGame = require("./serverside/WerewolfGame.js");
 var users = [];
 var isUserReady = [];
 var connections =[];
-
+var game;
 var dayResList =[];
 var nightResList =[];
 
@@ -76,6 +76,48 @@ socket.on("ready user", function(ready)
           startGame();
      }
 });
+
+
+socket.on("day res", function(dayRes){
+     dayResList.push(dayRes);
+
+     if(dayResList.length == users.length){
+
+          for(i=0; i<game.players.length; i++)
+          {
+               console.log(game.players[i].name, game.players[i].alive);
+          }
+
+          let decision = game.day(dayResList);
+          console.log(decision); //changes game.players based on Vote
+          dayResList=[];
+
+          for(i=0; i<game.players.length; i++)
+          {
+               console.log(game.players[i].name, game.players[i].alive);
+          }
+          io.sockets.emit("day summary", decision); //client needs to figure out who died based on change in .alive booleans (in response to day summary request)
+
+          if(game.isGameOver) gameOver();
+          else serverNight();
+     }
+});
+
+
+socket.on("night res", function(nightRes){
+     nightResList.push(nightRes);
+
+     if(nightResList.length == game.numWolfs){
+     game.night(nightResList); //changes game.players based on Vote
+     nightResList =[];
+     io.sockets.emit("night summary", game.players); //client needs to figure out who died based on change in .alive booleans (in response to day summary request)
+
+     if(game.isGameOver) gameOver();
+     else serverDay();
+     }
+});
+
+
 //Update user list
      function updateUsernames(){
           let nameReadyList = [];
@@ -95,7 +137,7 @@ socket.on("ready user", function(ready)
      }
      function startGame(){
           console.log("STARTING GAME...");
-          var game = new WerewolfGame(users);
+           game = new WerewolfGame(users);
           io.sockets.emit("start", game.players);
 
           serverDay();
@@ -105,36 +147,11 @@ socket.on("ready user", function(ready)
 
           io.sockets.emit("day");
 
-          socket.on("day res", function(dayRes){
-               dayResList.push(dayRes);
-               for(i=0; i<dayResList.length; i++)
-                    console.log(dayResList[i]);
-               if(dayResList.length == users.length){
-               game.day(dayResList); //changes game.players based on Vote
-               dayResList=[];
-               io.sockets.emit("day summary", game.players); //client needs to figure out who died based on change in .alive booleans (in response to day summary request)
-
-               if(game.isGameOver) gameOver();
-               else serverNight();
-               }
-          });
      }
      function serverNight(){
 
           io.sockets.emit("night");
 
-          socket.on("night res", function(nightRes){
-               nightResList.push(nightRes);
-
-               if(nightResList.length == game.numWolfs){
-               game.night(nightResList); //changes game.players based on Vote
-               nightResList =[];
-               io.sockets.emit("night summary", game.players); //client needs to figure out who died based on change in .alive booleans (in response to day summary request)
-
-               if(game.isGameOver) gameOver();
-               else serverDay();
-               }
-          });
      }
      function gameOver(){
           let resultMessage = game.results();
