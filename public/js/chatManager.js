@@ -22,7 +22,9 @@
      var $villageChatForm = $("#villageChatForm");
      var $villageChatInput = $("#villageChatInput");
      var $promptZone = $("#promptZone");
+     var $stDialogue = $("#stDialogue");
      var $dayForm = $("#dayForm");
+
 
 
 //not selectors
@@ -181,7 +183,7 @@ function isAlphaNumeric(str) {
      });
 
      socket.on("day", function(){
-          $promptZone.prepend('<p id="dayFormHeader"> Who do you vote to lynch? </p>');
+          $stDialogue.prepend('<p id="dayFormHeader"> Who do you vote to lynch? </p>');
           let dayFormAdd = '';
 
           for(i=0; i<serverPlayerList.length; i++){
@@ -192,6 +194,19 @@ function isAlphaNumeric(str) {
           $dayForm.append(dayFormAdd);
 
 
+     });
+     socket.on("day summary", function(decision){
+          console.log("Recieved day summary of: " + decision);
+          for(i=0; i<serverPlayerList.length; i++){
+               if(serverPlayerList[i].name===decision)
+                    {
+                         serverPlayerList[i].alive = false;
+                    }
+          }
+          $stDialogue.prepend('<p id="daySumP">'+ decision + ' has been killed by popular demand </p>');
+     });
+     socket.on("night", function(){
+          //game goes to here 
      });
      $dayForm.on("click", "#dayFormButton", function(){
           let dayVote = $('input[name=villageList]:checked').val(); //get selected radio button

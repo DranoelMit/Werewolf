@@ -4,12 +4,14 @@ var server = require("http").createServer(app);
 var io = require("socket.io").listen(server);
 var WerewolfGame = require("./serverside/WerewolfGame.js");
 
-var users = [];
-var isUserReady = [];
-var connections =[];
-var game;
-var dayResList =[];
-var nightResList =[];
+var users = []; //array of usernames in the lobby
+var isUserReady = []; //boolean array synched with users to determine if everyone in the lobby is ready
+var connections =[]; //list of sockets, users AND people on login page, essentially anyone on the page
+var game; //werewolf game object, not initialized until all users are ready (determines roles when initialized)
+
+//lists of responses from votes during rounds
+     var dayResList =[];
+     var nightResList =[];
 
 const MAXPLAYERS = 12;
 const MINPLAYERS = 4;
@@ -83,24 +85,26 @@ socket.on("day res", function(dayRes){
 
      if(dayResList.length == users.length){
 
-          for(i=0; i<game.players.length; i++)
-          {
-               console.log(game.players[i].name, game.players[i].alive);
-          }
-
           let decision = game.day(dayResList);
-          console.log(decision); //changes game.players based on Vote
+          console.log("DAY VOTE ENDED: "+ decision); //changes game.players based on Vote
           dayResList=[];
 
-          for(i=0; i<game.players.length; i++)
-          {
-               console.log(game.players[i].name, game.players[i].alive);
+          if(decision==="ERR_TIE"){
+               serverDay();
           }
-          io.sockets.emit("day summary", decision); //client needs to figure out who died based on change in .alive booleans (in response to day summary request)
-
-          if(game.isGameOver) gameOver();
-          else serverNight();
+          // this isnt working at all //else if(game.isGameOver()){
+          //     gameOver();
+          //}
+          else{
+                io.sockets.emit("day summary", decision); //client needs to figure out who died based on change in .alive booleans (in response to day summary request)
+                setTimeout(function(){
+                     serverNight();
+                },15000);
+           }
      }
+});
+socket.on("day over", function(){
+
 });
 
 
