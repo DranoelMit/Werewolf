@@ -76,9 +76,13 @@ width: 60%;
      background-color: rgba(255,255,255,0.7);
 
 }
-.ready
+.ready, .alive
 {
      color: #00aa00;
+}
+.dead
+{
+     color: #aa0000;
 }
 #gameView
 {
@@ -87,10 +91,10 @@ width: 60%;
 #villageChat
 {
      position: fixed;
-     height: 95%;
+     height: 75%;
      width: 20%;
      right: 0;
-     top: 0;
+     top: 20%;
      overflow: auto;
      display: flex;
      flex-direction: column-reverse;
@@ -125,6 +129,22 @@ width: 60%;
      text-align: center;
      width: 80%;
      height: 300px;
+}
+#villagePlayerSidebar
+{
+     position: fixed;
+     width: 20%;
+     height: 20%;
+     right: 0;
+     top: 0;
+     background-color: #ffffff;
+     overflow: auto;
+     overflow-x: hidden;
+
+}
+#villagePlayerList
+{
+list-style-type: none;
 }
 #villageChatInput
 {

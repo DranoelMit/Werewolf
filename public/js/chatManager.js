@@ -18,6 +18,7 @@
      var $ReadyButton = $("#ReadyButton");
      var $gameView = $("#gameView");
      var $nameAndRole = $("#nameAndRole");
+     var $villagePlayerList = $("#villagePlayerList");
      var $villageChat = $("#villageChat");
      var $villageChatForm = $("#villageChatForm");
      var $villageChatInput = $("#villageChatInput");
@@ -30,6 +31,7 @@
 //not selectors
      var myName;
      var myRole;
+     var myLife = true;
      var serverPlayerList;
      var currentChat;
      var isNight = false;
@@ -179,11 +181,12 @@ function isAlphaNumeric(str) {
 
           $nameAndRole.append('<span>' + myName +', your role is ' + wordRole + '</span>');
           currentChat = $villageChat;
+          updateUsernames();
           $gameView.show();
      });
 
      socket.on("day", function(){
-          $stDialogue.prepend('<p id="dayFormHeader"> Who do you vote to lynch? </p>');
+          $stDialogue.append('<p id="dayFormHeader"> Who do you vote to lynch? </p>');
           let dayFormAdd = '';
 
           for(i=0; i<serverPlayerList.length; i++){
@@ -200,14 +203,37 @@ function isAlphaNumeric(str) {
           for(i=0; i<serverPlayerList.length; i++){
                if(serverPlayerList[i].name===decision)
                     {
+
                          serverPlayerList[i].alive = false;
                     }
           }
+          if(myName===decision){
+               myLife = false;
+          }
+          updateUsernames();
           $stDialogue.prepend('<p id="daySumP">'+ decision + ' has been killed by popular demand </p>');
      });
+     //TODO: add forms for seer and werewolves, as well as chat for werewolves
      socket.on("night", function(){
-          //game goes to here 
+          if(myLife){
+          //set up vote like day, but FOR WEREWOLFS ONLY
+          //0 is werewolf, vote with other werewolf(s) on who to kill
+               if(myRole == 0){
+                    $stDialogue.append('<p class="nightTime">Please vote on who to assasinate with the other alive werewolves</p>');
+               }
+               //1 is seer, prompt who they want to investigate
+               else if(myRole == 1){
+                    $stDialogue.append('<p class="nightTime">Select a player to investigate</p>');
+               }
+               //2 is hunter, doesnt have special effect at night, should mimic villager
+               //3 is villager, but no need to check, only option left
+               else {
+                    $stDialogue.append('<p class="nightTime">It is night time, the villagers are sleeping</p>');
+               }
+          }
+          else $stDialogue.append('<p class="nightTime">It is night Time, you are dead and spectating</p>');
      });
+
      $dayForm.on("click", "#dayFormButton", function(){
           let dayVote = $('input[name=villageList]:checked').val(); //get selected radio button
           if(dayVote!=="undefined"){
@@ -216,3 +242,15 @@ function isAlphaNumeric(str) {
                $("#dayFormHeader").html("");
           }
      });
+     function updateUsernames(){
+          $villagePlayerList.html("");
+          for(i=0; i<serverPlayerList.length; i++)
+          {
+               if(serverPlayerList[i].alive){
+                    $villagePlayerList.append('<li class="alive">'+serverPlayerList[i].name+'</li>');
+               }
+               else{
+                    $villagePlayerList.append('<li class="dead">'+serverPlayerList[i].name+'</li>');
+               }
+          }
+     }

@@ -103,9 +103,6 @@ socket.on("day res", function(dayRes){
            }
      }
 });
-socket.on("day over", function(){
-
-});
 
 
 socket.on("night res", function(nightRes){
