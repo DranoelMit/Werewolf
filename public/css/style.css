@@ -120,6 +120,8 @@ width: 60%;
      text-align: center;
      width:80%;
      height: 100px;
+     overflow: auto;
+     overflow-x:hidden;
 }
 #promptZone
 {

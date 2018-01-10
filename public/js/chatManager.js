@@ -25,6 +25,7 @@
      var $promptZone = $("#promptZone");
      var $stDialogue = $("#stDialogue");
      var $dayForm = $("#dayForm");
+     var $nightForm = $("#nightForm");
 
 
 
@@ -141,8 +142,6 @@ function isAlphaNumeric(str) {
 
 //Client recieves message from server
      socket.on("new message", function(data){
-          //prepend --> opposite order of append (so messages are at bottom)
-          //TODO store $lobbyChat in a currentChat variable, CHNAGE this to point at villageChat once game starts
           currentChat.prepend('<div class="newMessage"><span class="username">'+data.user+': </span>'+data.msg+'</div>');
      });
 
@@ -164,19 +163,19 @@ function isAlphaNumeric(str) {
           let roleDecrip;
           if(myRole==0){
             wordRole = "Werewolf";
-           // roleDecrip = "Eat a villager each night";
+           // roleDescrip = "Eat a villager each night";
           }
           if(myRole==1){
             wordRole = "Seer";
-            //roleDecrip = "Each night, point at a player and learn if they are a werewolf";
+            //roleDescrip = "Each night, point at a player and learn if they are a werewolf";
           }
           if(myRole==2){
             wordRole = "Hunter";
-           // roleDecrip = "If you are killed, take someone down with you";
+           // roleDescrip = "If you are killed, take someone down with you";
           }
           if(myRole==3){
             wordRole = "Villager";
-           // roleDecrip = "Find the werewolves and lynch them";
+           // roleDescrip = "Find the werewolves and lynch them";
           }
 
           $nameAndRole.append('<span>' + myName +', your role is ' + wordRole + '</span>');
@@ -213,13 +212,32 @@ function isAlphaNumeric(str) {
           updateUsernames();
           $stDialogue.prepend('<p id="daySumP">'+ decision + ' has been killed by popular demand </p>');
      });
+
+     $dayForm.on("click", "#dayFormButton", function(){
+          let dayVote = $('input[name=villageList]:checked').val(); //get selected radio button
+          if(dayVote!=="undefined"){
+               socket.emit("day res", dayVote);
+               $dayForm.html("");
+               $("#dayFormHeader").html("");
+          }
+     });
      //TODO: add forms for seer and werewolves, as well as chat for werewolves
      socket.on("night", function(){
           if(myLife){
           //set up vote like day, but FOR WEREWOLFS ONLY
+
           //0 is werewolf, vote with other werewolf(s) on who to kill
                if(myRole == 0){
                     $stDialogue.append('<p class="nightTime">Please vote on who to assasinate with the other alive werewolves</p>');
+                    let nightFormAdd = '';
+
+                    for(i=0; i<serverPlayerList.length; i++){
+                         if(serverPlayerList[i].alive && serverPlayerList[i].name!==myName)
+                              nightFormAdd+= '<input type="radio" name="villageList" value="'+ serverPlayerList[i].name +'"/><span>' + serverPlayerList[i].name + '</span><br>';
+                    }
+                    nightFormAdd+= '<input id="nightFormButton" type="button" value="Vote"/></form>';
+                    $nightForm.append(nightFormAdd);
+
                }
                //1 is seer, prompt who they want to investigate
                else if(myRole == 1){
@@ -234,14 +252,6 @@ function isAlphaNumeric(str) {
           else $stDialogue.append('<p class="nightTime">It is night Time, you are dead and spectating</p>');
      });
 
-     $dayForm.on("click", "#dayFormButton", function(){
-          let dayVote = $('input[name=villageList]:checked').val(); //get selected radio button
-          if(dayVote!=="undefined"){
-               socket.emit("day res", dayVote);
-               $dayForm.html("");
-               $("#dayFormHeader").html("");
-          }
-     });
      function updateUsernames(){
           $villagePlayerList.html("");
           for(i=0; i<serverPlayerList.length; i++)
