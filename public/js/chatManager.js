@@ -22,8 +22,10 @@
      var $villageChat = $("#villageChat");
      var $villageChatForm = $("#villageChatForm");
      var $villageChatInput = $("#villageChatInput");
-     var $promptZone = $("#promptZone");
      var $stDialogue = $("#stDialogue");
+     var $promptZone = $("#promptZone");
+     var $dayPrompt = $("#dayPrompt");
+     var $nightPrompt = $("#nightPrompt");
      var $dayForm = $("#dayForm");
      var $nightForm = $("#nightForm");
 
@@ -185,7 +187,9 @@ function isAlphaNumeric(str) {
      });
 
      socket.on("day", function(){
-          $stDialogue.append('<p id="dayFormHeader"> Who do you vote to lynch? </p>');
+          $nightPrompt.hide();
+          $dayPrompt.show();
+          $stDialogue.prepend('<p id="dayFormHeader"> Who do you vote to lynch? </p>');
           let dayFormAdd = '';
 
           for(i=0; i<serverPlayerList.length; i++){
@@ -218,17 +222,19 @@ function isAlphaNumeric(str) {
           if(dayVote!=="undefined"){
                socket.emit("day res", dayVote);
                $dayForm.html("");
-               $("#dayFormHeader").html("");
+               $stDialogue.prepend('<p>You voted to kill '+dayVote+'</p>')
           }
      });
      //TODO: add forms for seer and werewolves, as well as chat for werewolves
      socket.on("night", function(){
+          $dayPrompt.hide();
+          $nightPrompt.show();
           if(myLife){
           //set up vote like day, but FOR WEREWOLFS ONLY
 
           //0 is werewolf, vote with other werewolf(s) on who to kill
                if(myRole == 0){
-                    $stDialogue.append('<p class="nightTime">Please vote on who to assasinate with the other alive werewolves</p>');
+                    $stDialogue.prepend('<p class="nightTime">Please vote on who to assasinate with the other alive werewolves</p>');
                     let nightFormAdd = '';
 
                     for(i=0; i<serverPlayerList.length; i++){
@@ -241,15 +247,15 @@ function isAlphaNumeric(str) {
                }
                //1 is seer, prompt who they want to investigate
                else if(myRole == 1){
-                    $stDialogue.append('<p class="nightTime">Select a player to investigate</p>');
+                    $stDialogue.prepend('<p class="nightTime">Select a player to investigate</p>');
                }
                //2 is hunter, doesnt have special effect at night, should mimic villager
                //3 is villager, but no need to check, only option left
                else {
-                    $stDialogue.append('<p class="nightTime">It is night time, the villagers are sleeping</p>');
+                    $stDialogue.prepend('<p class="nightTime">It is night time, the villagers are sleeping</p>');
                }
           }
-          else $stDialogue.append('<p class="nightTime">It is night Time, you are dead and spectating</p>');
+          else $stDialogue.prepend('<p class="nightTime">It is night Time, you are dead and spectating</p>');
      });
 
      function updateUsernames(){

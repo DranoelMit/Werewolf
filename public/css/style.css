@@ -2,10 +2,10 @@
 
 body
 {
-background-image: url("nightbg.png");
-background-size: cover;
-background-repeat: no-repeat;
-background-color: #615A91;
+     background-image: url("nightbg.png");
+     background-size: cover;
+     background-repeat: no-repeat;
+     background-color: #615A91;
 }
 @font-face {
      font-family: rothenbg;
@@ -34,7 +34,7 @@ background-color: #615A91;
 }
 #userInput
 {
-width: 60%;
+     width: 60%;
 }
 #whatIs
 {
@@ -114,6 +114,8 @@ width: 60%;
 }
 #stDialogue
 {
+     display: flex;
+     flex-direction: column-reverse;
      margin-top: 5%;
      border: 3px solid;
      border-color: #ffffff;
@@ -146,7 +148,7 @@ width: 60%;
 }
 #villagePlayerList
 {
-list-style-type: none;
+     list-style-type: none;
 }
 #villageChatInput
 {
@@ -156,4 +158,16 @@ list-style-type: none;
      right: 0;
      bottom:0;
      display: block;
+}
+#nightPrompt
+{
+
+}
+#wolfChat
+{
+     height: 200px;
+     width: 600px;
+     background-color: #ffffff;
+     overflow: auto;
+     overflow-x: hidden;
 }
