@@ -28,6 +28,8 @@
      var $nightPrompt = $("#nightPrompt");
      var $dayForm = $("#dayForm");
      var $nightForm = $("#nightForm");
+     var $wolfChat = $("#wolfChat");
+     var $wolfChatForm = $("#wolfChatForm");
 
 
 
@@ -243,6 +245,7 @@ function isAlphaNumeric(str) {
                     }
                     nightFormAdd+= '<input id="nightFormButton" type="button" value="Vote"/></form>';
                     $nightForm.append(nightFormAdd);
+                    //$wolfChatDOTshow();
 
                }
                //1 is seer, prompt who they want to investigate

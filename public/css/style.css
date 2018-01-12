@@ -170,4 +170,6 @@ body
      background-color: #ffffff;
      overflow: auto;
      overflow-x: hidden;
+     right:0;
+     display:none;
 }
