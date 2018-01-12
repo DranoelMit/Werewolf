@@ -290,7 +290,6 @@ function isAlphaNumeric(str) {
     });
 
 socket.on("new wolfMessage", function(data){
-	if(myRole==0)
 	$wolfChat.prepend('<div class="newMessage"><span class="username">'+data.user+': </span>'+data.msg+'</div>');
     });
 

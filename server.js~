@@ -90,7 +90,7 @@ socket.on("day res", function(dayRes){
           dayResList=[];
 
           if(decision==="ERR_TIE"){
-               serverDay(true);
+               serverDay();
           }
           // this isnt working at all //else if(game.isGameOver()){
           //     gameOver();
@@ -104,9 +104,6 @@ socket.on("day res", function(dayRes){
      }
 });
 
-socket.on("send wolfMessage", function(data){
-		  io.sockets.emit("new wolfMessage", {msg:data, user: socket.username});
-	      });
 
 socket.on("night res", function(nightRes){
      nightResList.push(nightRes);
@@ -117,9 +114,10 @@ socket.on("night res", function(nightRes){
      io.sockets.emit("night summary", game.players); //client needs to figure out who died based on change in .alive booleans (in response to day summary request)
 
      if(game.isGameOver) gameOver();
-     else serverDay(false);
+     else serverDay();
      }
 });
+
 
 //Update user list
      function updateUsernames(){
@@ -143,12 +141,12 @@ socket.on("night res", function(nightRes){
            game = new WerewolfGame(users);
           io.sockets.emit("start", game.players);
 
-          serverDay(false);
+          serverDay();
 
      }
-     function serverDay(wasTie){
+     function serverDay(){
 
-	 io.sockets.emit("day", wasTie);
+          io.sockets.emit("day");
 
      }
      function serverNight(){
