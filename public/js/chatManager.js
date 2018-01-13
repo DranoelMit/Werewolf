@@ -197,6 +197,7 @@ function isAlphaNumeric(str) {
 	  else{
 	      $stDialogue.prepend('<p id="dayFormHeader"> Who do you vote to lynch? </p>');
 	  }
+	  if(myLife){
           let dayFormAdd = '';
 
           for(i=0; i<serverPlayerList.length; i++){
@@ -205,8 +206,8 @@ function isAlphaNumeric(str) {
           }
           dayFormAdd+= '<input id="dayFormButton" type="button" value="Vote"/></form>';
           $dayForm.append(dayFormAdd);
-
-
+	  }
+	  else $stDialogue.prepend("It is day time, you are dead and spectating");
      });
      socket.on("day summary", function(decision){
           for(i=0; i<serverPlayerList.length; i++){
@@ -246,7 +247,7 @@ function isAlphaNumeric(str) {
                     let nightFormAdd = '';
 
                     for(i=0; i<serverPlayerList.length; i++){
-                         if(serverPlayerList[i].alive && serverPlayerList[i].name!==myName)
+                         if(serverPlayerList[i].alive && serverPlayerList[i].name!==myName && serverPlayerList[i].role != 0)
                               nightFormAdd+= '<input type="radio" name="villageList" value="'+ serverPlayerList[i].name +'"/><span>' + serverPlayerList[i].name + '</span><br>';
                     }
                     nightFormAdd+= '<input id="nightFormButton" type="button" value="Vote"/></form>';
@@ -273,18 +274,39 @@ function isAlphaNumeric(str) {
                //3 is villager, but no need to check, only option left
                else {
                     $stDialogue.prepend('<p class="nightTime">It is night time, the villagers are sleeping</p>');
+		    socket.emit("night ready");
                }
           }
-          else $stDialogue.prepend('<p class="nightTime">It is night Time, you are dead and spectating</p>');
-     });
+          else{ 
+	      $stDialogue.prepend('<p class="nightTime">It is night Time, you are dead and spectating</p>');
+	      socket.emit("night ready");
+	  }
+       });
 
 //Works just like other chats, but only for werewolves
     $wolfChatForm.submit(function(e){
 	    e.preventDefault();
 	    $wolfChatInput = $("#wolfChatInput");
-	    if($wolfChatInput.val() !== "") {
+	    if($wolfChatInput.val() !== ""){
 		socket.emit("send wolfMessage", $wolfChatInput.val());
 		$wolfChatInput.val("");
+	    }
+    });
+ 
+    socket.on("nightVote tie", function(){
+	    if(myRole==0){
+		$stDialogue.prepend('<p class="nightTime">The vote was a tie! Vote again werewolves!</p>');
+		let nightFormAdd = '';
+
+		for(i=0; i<serverPlayerList.length; i++){
+		    if(serverPlayerList[i].alive && serverPlayerList[i].name!==myName && serverPlayerList[i].role!=0 )
+			nightFormAdd+= '<input type="radio" name="villageList" value="'+ serverPlayerList[i].name +'"/><span>' + serverPlayerList[i].name + '</span><br>';
+		}
+		nightFormAdd+= '<input id="nightFormButton" type="button" value="Vote"/></form>';
+		$nightForm.append(nightFormAdd);
+		$wolfChat.show();
+		$wolfChat.css("display","flex");
+		$wolfChatForm.append('<input id="wolfChatInput" type="text" placeholder="Talk to the other alive werewolves"/>');
 	    }
     });
 
@@ -303,17 +325,29 @@ function isAlphaNumeric(str) {
 		$stDialogue.prepend('<p>You voted to kill '+ nightVote +'</p>')
 	      }
 	    else if(myRole==1){
-		let seerResponse ="Your crystal ball yields no results, " + nightVote + " is NOT a Werewolf";
+		let seerResponse ="<p> Your crystal ball yields no results, " + nightVote + " is NOT a Werewolf</p>";
 		for(i=0; i<serverPlayerList.length; i++){
 		    if(serverPlayerList[i].name===nightVote && serverPlayerList[i].role == 0){
-			seerResponse= "Your crystal ball shows you that " +  nightVote + " is a Werewolf";
+			seerResponse= "<p> Your crystal ball shows you that " +  nightVote + " is a Werewolf</p>";
 		    }
 		}
 		$nightForm.html("");
 		$stDialogue.prepend(seerResponse);
+	      
 		
 	    }
-	 } 
+	    socket.emit("night ready");
+	} 
+    });
+
+    socket.on("night summary", function(result){
+	    for(i=0; i<serverPlayerList.length;i++){
+		if(result==serverPlayerList[i].name)
+		    serverPlayerList[i].alive = false;
+	    }
+	    $stDialogue.prepend('<p>'+ result +' has been killed by the werewolfs! </p>');
+	    if(myName === result) myLife = false;
+	    updateUsernames();
     });
 
 

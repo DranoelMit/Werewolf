@@ -159,9 +159,22 @@ game = class WerewolfGame {
 	      }
 	      return retString;
 	  }
-
-          get numWolfs(){
-	      return 2; //make this not a magic number
+    get alivePlayers(){
+	let counter =0;
+	for(i=0; i<this.players.length; i++){
+	    if(this.players[i].alive)
+		counter++;
+	}
+	return counter;
+    }
+	
+	get numWolfs(){
+	      let counter =0;
+	      for(i=0; i<this.players.length; i++){
+		  if(this.players[i].role==0 && this.players[i].alive)
+		      counter++;
+	      }
+	      return counter;
           }
 
           isGameOver(){

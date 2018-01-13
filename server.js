@@ -12,6 +12,7 @@ var game; //werewolf game object, not initialized until all users are ready (det
 //lists of responses from votes during rounds
      var dayResList =[];
      var nightResList =[];
+     var nightReadyCount =0;
 
 const MAXPLAYERS = 12;
 const MINPLAYERS = 4;
@@ -83,7 +84,7 @@ socket.on("ready user", function(ready)
 socket.on("day res", function(dayRes){
      dayResList.push(dayRes);
 
-     if(dayResList.length == users.length){
+     if(dayResList.length == game.alivePlayers){
 
           let decision = game.day(dayResList);
           console.log("DAY VOTE ENDED: "+ decision); //changes game.players based on Vote
@@ -109,24 +110,29 @@ socket.on("send wolfMessage", function(data){
 	      });
 
 socket.on("night res", function(nightRes){
-     nightResList.push(nightRes);
-
-     if(nightResList.length == game.numWolfs){
-    let decision =  game.night(nightResList); //changes game.players based on Vote
-    console.log("NIGHT VOTE OVER, WEREWOLVES TO KILL: "+ decision);
-    nightResList =[];
-     if(decision==="ERR_TIE"){
-	 io.sockets.emit("nightVote tie"); //just reset the poll for werewolfs, can't overhaul everything like when everyone is on the same page during the day
-     }
-     //else if(game.isGameOver) gameOver();
-     else{
-	 io.sockets.emit("night summary", game.players);
-	 setTimeout(function(){
-		 serverDay(false);
-	     }, TIME_DELAY);
-     }
-    }
+	nightResList.push(nightRes);
 });
+
+   socket.on("night ready", function(){
+	   nightReadyCount++;
+	   if(nightReadyCount == game.players.length){
+	          
+		   let decision =  game.night(nightResList); //changes game.players based on Vote                                                                                                   
+		   console.log("NIGHT VOTE OVER, WEREWOLVES TO KILL: "+ decision);
+		   nightResList =[];
+		   if(decision==="ERR_TIE"){
+		       io.sockets.emit("nightVote tie"); //just reset the poll for werewolfs, can't overhaul everything like when everyone is on the same page during the day  
+		       nightReadyCount -= game.numWolfs;
+		   }
+		   //else if(game.isGameOver) gameOver();                                                                                                                                          
+		   else{
+		       io.sockets.emit("night summary", decision);
+		       setTimeout(function(){
+			       serverDay(false);
+			   }, TIME_DELAY);
+		   }
+	   }
+       });
 
 //Update user list
      function updateUsernames(){

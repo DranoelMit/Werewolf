@@ -94,7 +94,12 @@ Day 5:
 
 
 
-
+Day 8:
+	NOTE two major bugs: can vote for undefined on radio buttons, werewolfs have the option to night note werewolves, AND last vote did not work properly (could be a fluke, but 2/4 votes were for a and D got killed) 
+	TODO: 
+		1)change game.numWolfs to return the amount of ALIVE WEREWOLFS
+		2) get night cycle working 
+	
 
 
 
