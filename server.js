@@ -20,7 +20,7 @@ const callbackStatus = {
                               nameTaken: 1,
                               lobbyFull : 2
                        };
-
+const TIME_DELAY = 5000; //used in timeout calls in between Day & Night Transitions
 server.listen(process.env.PORT || 8080);
 
 app.use(express.static(__dirname + "/public"));
@@ -99,7 +99,7 @@ socket.on("day res", function(dayRes){
                 io.sockets.emit("day summary", decision); //client needs to figure out who died based on change in .alive booleans (in response to day summary request)
                 setTimeout(function(){
                      serverNight();
-                },15000);
+                }, TIME_DELAY);
            }
      }
 });
@@ -112,13 +112,20 @@ socket.on("night res", function(nightRes){
      nightResList.push(nightRes);
 
      if(nightResList.length == game.numWolfs){
-     game.night(nightResList); //changes game.players based on Vote
-     nightResList =[];
-     io.sockets.emit("night summary", game.players); //client needs to figure out who died based on change in .alive booleans (in response to day summary request)
-
-     if(game.isGameOver) gameOver();
-     else serverDay(false);
+    let decision =  game.night(nightResList); //changes game.players based on Vote
+    console.log("NIGHT VOTE OVER, WEREWOLVES TO KILL: "+ decision);
+    nightResList =[];
+     if(decision==="ERR_TIE"){
+	 io.sockets.emit("nightVote tie"); //just reset the poll for werewolfs, can't overhaul everything like when everyone is on the same page during the day
      }
+     //else if(game.isGameOver) gameOver();
+     else{
+	 io.sockets.emit("night summary", game.players);
+	 setTimeout(function(){
+		 serverDay(false);
+	     }, TIME_DELAY);
+     }
+    }
 });
 
 //Update user list

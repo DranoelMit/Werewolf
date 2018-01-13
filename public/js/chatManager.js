@@ -209,7 +209,6 @@ function isAlphaNumeric(str) {
 
      });
      socket.on("day summary", function(decision){
-          console.log("Recieved day summary of: " + decision);
           for(i=0; i<serverPlayerList.length; i++){
                if(serverPlayerList[i].name===decision)
                     {
@@ -289,9 +288,32 @@ function isAlphaNumeric(str) {
 	    }
     });
 
-socket.on("new wolfMessage", function(data){
+    socket.on("new wolfMessage", function(data){
 	if(myRole==0)
 	$wolfChat.prepend('<div class="newMessage"><span class="username">'+data.user+': </span>'+data.msg+'</div>');
+    });
+
+    $nightForm.on("click", "#nightFormButton", function(){
+	let nightVote = $('input[name=villageList]:checked').val(); //get selected radio button                                                                                     
+	if(nightVote!=="undefined"){
+
+	    if(myRole==0){
+		socket.emit("night res", nightVote);
+		$nightForm.html("");
+		$stDialogue.prepend('<p>You voted to kill '+ nightVote +'</p>')
+	      }
+	    else if(myRole==1){
+		let seerResponse ="Your crystal ball yields no results, " + nightVote + " is NOT a Werewolf";
+		for(i=0; i<serverPlayerList.length; i++){
+		    if(serverPlayerList[i].name===nightVote && serverPlayerList[i].role == 0){
+			seerResponse= "Your crystal ball shows you that " +  nightVote + " is a Werewolf";
+		    }
+		}
+		$nightForm.html("");
+		$stDialogue.prepend(seerResponse);
+		
+	    }
+	 } 
     });
 
 
