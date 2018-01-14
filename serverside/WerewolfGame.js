@@ -122,6 +122,8 @@ game = class WerewolfGame {
           night(nightResList){
 //same thing as day, but only werewolfs vote
 //returns string, if string is "ERR_TIE", then call night again. if not, call day
+	      if(nightResList.length == 1) return nightResList[0];
+
 	      var modeMap = {};
 	      var modeEl = nightResList[0];
 	      var maxCount = 1;
@@ -188,7 +190,7 @@ game = class WerewolfGame {
              
 	       if(numAliveWolves==0 && numAliveVillagers>=1) //no werewolves!
 		   return true;
-	       else if(numAliveWolves>0 && numAliveVillagers==0) //no villagers, only werewolves!
+	       else if(numAliveWolves>0 && numAliveVillagers<=1) //no villagers, only werewolves! Also resolves 1v1 conflict
 		   return true;
 	       else
 		   return false;

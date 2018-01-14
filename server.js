@@ -124,6 +124,7 @@ socket.on("night res", function(nightRes){
 		   }
 		   else if(game.isGameOver())  gameOver();                                                                                                                                          
 		   else{
+		       nightReadyCount=0;
 		       io.sockets.emit("night summary", decision);
 		       setTimeout(function(){
 			       serverDay(false);
@@ -163,9 +164,10 @@ socket.on("night res", function(nightRes){
 
      }
      function serverNight(){
-
+	 
+	 nightReadyCount =0;
           io.sockets.emit("night");
-
+	  
      }
      function gameOver(){
 	 console.log("The game has ended");
