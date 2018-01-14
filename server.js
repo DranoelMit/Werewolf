@@ -93,9 +93,7 @@ socket.on("day res", function(dayRes){
           if(decision==="ERR_TIE"){
                serverDay(true);
           }
-          // this isnt working at all //else if(game.isGameOver()){
-          //     gameOver();
-          //}
+          else if(game.isGameOver()) gameOver();
           else{
                 io.sockets.emit("day summary", decision); //client needs to figure out who died based on change in .alive booleans (in response to day summary request)
                 setTimeout(function(){
@@ -124,7 +122,7 @@ socket.on("night res", function(nightRes){
 		       io.sockets.emit("nightVote tie"); //just reset the poll for werewolfs, can't overhaul everything like when everyone is on the same page during the day  
 		       nightReadyCount -= game.numWolfs;
 		   }
-		   //else if(game.isGameOver) gameOver();                                                                                                                                          
+		   else if(game.isGameOver())  gameOver();                                                                                                                                          
 		   else{
 		       io.sockets.emit("night summary", decision);
 		       setTimeout(function(){
@@ -170,8 +168,8 @@ socket.on("night res", function(nightRes){
 
      }
      function gameOver(){
-          let resultMessage = game.results();
-          io.sockets.emit("game over", resultMessage);
+	 console.log("The game has ended");
+	 io.sockets.emit("game over", game.results());
      }
 
 

@@ -179,44 +179,32 @@ game = class WerewolfGame {
 
           isGameOver(){
                //two win conditions: ONLY WEREWOLFS ARE ALIVE or ALL WEREWOLVES ARE DEAD AND at least 1 villager is alive
-               let numAliveWolves=0;
-               let numAliveVillagers = 0;
-               for(i=0; i<this.players.length; i++){
-                    if(this.players[i].alive && this.players[i].role == RoleEnum.WEREWOLF ){
-                         numAliveWolves++;
-                    }
-               }
-               for(i=0; i<this.players.length; i++){
-                    if(this.players[i].alive && this.players[i].role != RoleEnum.WEREWOLF ){
-                         numAliveVillagers++;
-                    }
-                    if(numAliveWolves==0 && numAliveVillagers>=1)
-                         return true;
-                    else if(numAliveWolves>0 && numAliveVillagers<=1)
-                         return true;
-                    else
-                      return false;
-               }
+               let numAliveWolves= this.numWolfs;
+               let numAliveVillagers = this.alivePlayers - numAliveWolves; // the correct number we are looking for is NON Werewolfs.
+              
+	       console.log("Checking win conditions...");
+	       console.log("Wolfs: "+ numAliveWolves);
+	       console.log("Villagers "+ numAliveVillagers);
+             
+	       if(numAliveWolves==0 && numAliveVillagers>=1) //no werewolves!
+		   return true;
+	       else if(numAliveWolves>0 && numAliveVillagers==0) //no villagers, only werewolves!
+		   return true;
+	       else
+		   return false;
+               
           }
 
            results(){
-            let numAliveWolves=0;
-            let numAliveVillagers = 0;
-            for(i=0; i<this.players.length; i++){
-                 if(this.players[i].alive && this.players[i].role == RoleEnum.WEREWOLF ){
-                      numAliveWolves++;
-                 }
-           }
-            for(i=0; i<this.players.length; i++){
-                 if(this.players[i].alive && this.players[i].role != RoleEnum.WEREWOLF ){
-                      numAliveVillagers++;
-                 }
-                 if(numAliveWolves==0 && numAliveVillagers>=1)
-                      return "Werewolves win!";
-                 else if(numAliveWolves>0 && numAliveVillagers<=1)
-                      return "Villagers win!";
-            }
-          }
+	       let numAliveWolves= this.numWolfs;
+               let numAliveVillagers = this.alivePlayers - numAliveWolves;
+	   
+	       if(numAliveWolves==0 && numAliveVillagers>=1) //no werewolves!                                                                                                       
+                   return "Villagers Win!";
+	       else //no villagers, only werewolves!                                                                                  
+		   return "Werewolves Win!";
+  
+	   }
 }
 // Players should be mapped into a map with dictionaries as elements
 // to sort them for easy access

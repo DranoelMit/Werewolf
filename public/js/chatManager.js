@@ -350,6 +350,9 @@ function isAlphaNumeric(str) {
 	    updateUsernames();
     });
 
+    socket.on("game over", function(result){
+	    $stDialogue.prepend("GAME OVER, " + result);
+    });
 
       function updateUsernames(){
           $villagePlayerList.html("");

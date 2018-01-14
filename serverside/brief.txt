@@ -1,5 +1,0 @@
-Serverside Outline
-
-- This IS where the werewolf game takes place
-- Main game loop takes place here
-- Will be written with node.js expansions

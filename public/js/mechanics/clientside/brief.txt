@@ -1,1 +1,0 @@
-This is where the graphics output should take place
