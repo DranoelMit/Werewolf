@@ -170,8 +170,15 @@ body
      background-color: #ffffff;
      overflow: auto;
      overflow-x: hidden;
-     right:0;
      display:none;
      flex-direction: column-reverse;
      
+}
+#wolfChatForm
+{
+     width: 600px;
+}
+#wolfChatInput
+{
+     width:100%;
 }

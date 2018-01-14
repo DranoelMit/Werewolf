@@ -21,7 +21,7 @@ const callbackStatus = {
                               nameTaken: 1,
                               lobbyFull : 2
                        };
-const TIME_DELAY = 5000; //used in timeout calls in between Day & Night Transitions
+const TIME_DELAY = 10000; //used in timeout calls in between Day & Night Transitions
 server.listen(process.env.PORT || 8080);
 
 app.use(express.static(__dirname + "/public"));
@@ -96,7 +96,10 @@ socket.on("day res", function(dayRes){
           else if(game.isGameOver()) gameOver();
           else{
                 io.sockets.emit("day summary", decision); //client needs to figure out who died based on change in .alive booleans (in response to day summary request)
-                setTimeout(function(){
+                for(i =0; i<game.players.length; i++)
+		    if(game.players[i].name === decision && game.players[i].role == 2)
+			hunterKilled();
+		setTimeout(function(){
                      serverNight();
                 }, TIME_DELAY);
            }
@@ -126,6 +129,9 @@ socket.on("night res", function(nightRes){
 		   else{
 		       nightReadyCount=0;
 		       io.sockets.emit("night summary", decision);
+		       for(i =0; i<game.players.length; i++)
+			   if(game.players[i].name === decision && game.players[i].role == 2)
+			       hunterKilled();
 		       setTimeout(function(){
 			       serverDay(false);
 			   }, TIME_DELAY);
@@ -169,6 +175,16 @@ socket.on("night res", function(nightRes){
           io.sockets.emit("night");
 	  
      }
+     function hunterKilled(){
+	 io.sockets.emit("hunter");
+     }
+     socket.on("hunter res", function(choice){
+	     for(i=0; i<game.players.length; i++)
+		 if(choice === game.players[i].name)
+		     game.players[i].alive = false;
+	     
+	     io.sockets.emit("hunter summary", choice);
+     });
      function gameOver(){
 	 console.log("The game has ended");
 	 io.sockets.emit("game over", game.results());

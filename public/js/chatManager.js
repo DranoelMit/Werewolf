@@ -50,7 +50,7 @@
           $body.css("background-color", "#6A56F4");
 
 
-          $nightButton.val("Day Time");
+          $nightButton.val("Night Time");
 
           isNight=false;
           }
@@ -59,7 +59,7 @@
                $body.css("background-image", 'url(../css/nightbg.png)');
                $body.css("background-color", "#615A91");
 
-               $nightButton.val("Night Time");
+               $nightButton.val("Day  Time");
 
                isNight=true;
           }
@@ -337,8 +337,10 @@ function isAlphaNumeric(str) {
 		}
 		$nightForm.html("");
 		$stDialogue.prepend(seerResponse);
-	      
-		
+	    }
+	    else if(myRole==2){
+		socket.emit("hunter res", nightVote);
+		$nightForm.html("");
 	    }
 	    socket.emit("night ready");
 	} 
@@ -358,7 +360,42 @@ function isAlphaNumeric(str) {
 	    $stDialogue.prepend("GAME OVER, " + result);
     });
 
-      function updateUsernames(){
+    socket.on("hunter", function(){
+	    if(myRole==2){
+		$stDialogue.prepend('<p> Select who you would like to kill </p>');
+		$nightPrompt.show();
+		let nightFormAdd = '';
+
+		for(i=0; i<serverPlayerList.length; i++){
+		    if(serverPlayerList[i].alive && serverPlayerList[i].name!==myName && serverPlayerList[i].role!=0 )
+			nightFormAdd+= '<input type="radio" name="villageList" value="'+ serverPlayerList[i].name +'"/><span>' + serverPlayerList[i].name + '</span><br>';
+		}
+		nightFormAdd+= '<input id="nightFormButton" type="button" value="Shoot"/></form>';
+		$nightForm.append(nightFormAdd);
+		
+	    }
+	    
+	    else{
+	          let hunterName;
+	         for(i=0; i<serverPlayerList.length; i++)
+		     if(serverPlayerList[i].role == 2)
+		         hunterName = serverPlayerList[i].name;
+	          $stDialogue.prepend('<p>' + hunterName + ' is the hunter!</p>');
+	    }
+    });
+    socket.on("hunter summary", function(choice){
+	    for(i=0; i<serverPlayerList.length; i++)
+		if(serverPlayerList[i].name===choice)
+		    serverPlayerList[i].alive = false;
+	    updateUsernames();
+	    if(choice===myName){
+		$nightPrompt.hide();
+		$dayPrompt.hide();
+		$stDialogue.prepend('<p>You have been killed and are now spectating</p>');
+	    }
+	    $stDialogue.prepend('<p> The hunter killed ' + choice + ' with their last breath</p>');
+    });
+    function updateUsernames(){
           $villagePlayerList.html("");
           for(i=0; i<serverPlayerList.length; i++)
           {
