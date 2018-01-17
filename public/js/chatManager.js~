@@ -413,13 +413,10 @@ function isAlphaNumeric(str) {
 	      $body.css("transition", "2s");
 	      $body.css("background-image", 'url(../css/daybg.png)');
 	      $body.css("background-color", "#6A56F4");
-	      $villageChatInput.show();
-
 	  }
 	  else{
 	      $body.css("transition", "2s");
 	      $body.css("background-image", 'url(../css/nightbg.png)');
 	      $body.css("background-color", "#615A91");
-	      $villageChatInput.hide();
 	  }
       } 
